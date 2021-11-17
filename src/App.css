@@ -24,6 +24,32 @@
   color: #61dafb;
 }
 
+.row {
+  --bs-gutter-x: 0 !important;
+}
+
+.navbar-light .navbar-brand {
+  color: rgba(0,0,0,.9);
+  font-size: 2.5rem;
+  /* font-family: ; */
+  font-weight: 800;
+}
+
+.me-auto i {
+  font-size: 2.5rem;
+  color : rgba(0,0,0,.9);
+  padding-left: 2rem;
+}
+
+.me-auto img {
+  width: 4.5rem;
+  padding-left: 2rem;
+}
+
+#connect-wallet {
+  background-color: white;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -61,17 +87,21 @@
 }
 
 .content .checkbox-panel .checkbox-col {
-  padding-left: 6.5rem;
+  padding-left: 6.5vw;
+}
+
+.content .checkbox-panel .checkbox-col .form-check-label {
+  word-break: break-all !important;
 }
 
 .content .footer-element {
   height: 10rem;
-  background-color: white;
 }
 
 .content .file-panel {
   text-align: center;
   margin : auto;
+  background-color: white;
 }
 
 .content .file-panel button {
@@ -82,16 +112,23 @@
 .content .submit-panel {
   text-align: center;
   margin: auto;
+  position:relative;
 }
 
 .content .submit-panel button {
   bottom : 0;
-  position: relative;
+  position: absolute;
   right: 0;
 }
 
 .form-label {
   font-weight: 500;
   font-size: 1rem;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+
+@media only screen and (max-width: 991px) {
+  .content .submit-panel {
+    height: 0 !important;
+  }
 }
