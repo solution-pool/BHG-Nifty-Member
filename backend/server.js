@@ -14,6 +14,10 @@ const PORT = 8000;
 
 app.use(cors());
 
+if (!fs.existsSync('resources')){
+    fs.mkdirSync('resources');
+}
+
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
 		cb(null, 'resources')
