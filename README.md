@@ -48,6 +48,10 @@ Our server is here and other backend functionalities are implemented here.
 
 You can upload files to this folder.
 
+####
+
+You can config here. Make sure you set the config to connect the database.
+
 ## Conclusion 
 
 Will add more huge functionality to our project.
