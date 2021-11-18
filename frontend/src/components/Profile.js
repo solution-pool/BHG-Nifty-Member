@@ -114,6 +114,19 @@ const Profile = () => {
         if(file) {
             postData.append('fileName', file.name)
         }
+
+        for(let p of postData) {
+            if(p[1] ==  undefined) {
+                window.scrollTo(0, 0)
+                setAlertClass('danger')
+                setAlertComment('An error occurred while typing data. Please reload the page and try again.')
+                showAlert(true)
+                setTimeout(() => {
+                    showAlert(false)
+                }, 5000)
+                return
+            }
+        }
         
         axios.post(SERVER_URL, postData ).then((res) => {
             console.log(res)
@@ -145,10 +158,11 @@ const Profile = () => {
         setEmail('')
         setRole('')
         setBio('')
-        setInputFile(null);
+        setInputFile(document.getElementById("input-file"));
         setFile(null);
         setInterest({})
         setForm({})
+        setButtonLabel('Choose File');
 
         let interests = document.getElementsByClassName('form-check-input')
 
@@ -165,6 +179,17 @@ const Profile = () => {
             alert.current.style.display = 'none'
         }
     }
+
+    // const walletConnect = () => {
+    //     if(window.ethereum) {
+    //         window.web3 = new Web3(window.ethereum)
+    //         await window.ethereum.enable()
+    //     } else if(window.web3) {
+    //         window.web3 = new Web3(window.web3.currentProvider)
+    //     } else {
+    //         window.alert('Non-Ethereum browser detected. Your should consider trying MetaMask!')
+    //     }
+    // }
 
     return(
         <Container>
