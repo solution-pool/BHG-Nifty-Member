@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Container, Row, Col, Button, Alert } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 import { SERVER_URL } from '../config/server'
@@ -16,8 +16,11 @@ const Profile = () => {
     const [file, setFile] = useState(null);
     const [interest, setInterest] = useState({})
     const [formData, setForm] = useState({})
+    const [alertComment, setAlertComment] = useState('Successed !')
+    const [alertClass, setAlertClass] = useState('success')
 
-    const form = useRef(null)
+    const form  = useRef(null)
+    const alert = useRef(null) 
 
     const changeUsername = (e) => {
         setUsername(e.target.value)
@@ -84,6 +87,8 @@ const Profile = () => {
 
     useEffect(() => {
       setInputFile(document.getElementById("input-file"));
+      alert.current.style.display = 'none'
+      console.log('Hi')
     }, []);
   
     const handleUpload = () => {
@@ -110,9 +115,24 @@ const Profile = () => {
         }
         
         axios.post(SERVER_URL, postData ).then((res) => {
+            console.log(res)
             reset()
+            window.scrollTo(0, 0)
+            setAlertClass('success')
+            setAlertComment('Success. The data you typed saved.')
+            showAlert(true)
+            setTimeout(() => {
+                showAlert(false)
+            }, 5000)
         }).catch((err) => {
             console.log(err);
+            window.scrollTo(0, 0)
+            setAlertClass('danger')
+            setAlertComment('The server connection failed. Please make sure if you are connected to the server correctly.')
+            showAlert(true)
+            setTimeout(() => {
+                showAlert(false)
+            }, 5000)
         })
     }
 
@@ -136,8 +156,20 @@ const Profile = () => {
         }
     }
 
+    const showAlert = show => {
+        if(show) {
+            alert.current.style.display = 'block'
+            console.log('Hello')
+        } else {
+            alert.current.style.display = 'none'
+        }
+    }
+
     return(
         <Container>
+            <Alert key={0} variant={alertClass} className="margin-top-30" ref={alert} style={{ display: 'none'}}>
+                {alertComment}
+            </Alert>
             <Row className="avatar">
                 <h1>Nifty Profile</h1>
                 <p>

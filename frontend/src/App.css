@@ -127,6 +127,10 @@
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
 }
 
+.margin-top-30 {
+  margin-top: 30px;
+}
+
 @media only screen and (max-width: 991px) {
   .content .submit-panel {
     height: 0 !important;

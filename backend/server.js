@@ -39,7 +39,7 @@ app.post('/',function(req, res) {
     const con = mysql.createConnection(db)
     con.connect(function (err) {
         if(err)  {
-            throw err;
+            return res.status(500).json(err)
         }
 
         var sql = `INSERT INTO nifty (username, password, status, email, role, held, interest, bio, file, sha256) VALUES ("${req.body.username}", "${req.body.password}", "${req.body.status}", "${req.body.email}", "${req.body.role}", "${req.body.held}", '${req.body.interest}', "${req.body.bio ? req.body.bio : ''}", "${req.body.fileName ? req.body.fileName : '' }", "${req.body.fileName ? req.body.fileName : ''}")`;
