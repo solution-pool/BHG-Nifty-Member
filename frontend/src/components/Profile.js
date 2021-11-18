@@ -5,8 +5,7 @@ import axios from 'axios';
 
 const Profile = () => {
 
-    let formData = {}
-    const url = 'localhost:8000/nifty';
+    const url = 'http://10.10.12.188:8000';
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [status, setStatus] = useState('')
@@ -17,40 +16,49 @@ const Profile = () => {
     const [inputFile, setInputFile] = useState(null);
     const [file, setFile] = useState(null);
     const [interest, setInterest] = useState({})
+    const [formData, setForm] = useState({})
+
 
     const changeUsername = (e) => {
         setUsername(e.target.value)
-        formData.username = username
+        formData.username = e.target.value
+        setForm(formData)
     }
 
     const changePassword = (e) => {
         setPassword(e.target.value)
-        formData.password = password
+        formData.password = e.target.value
+        setForm(formData)
     }
 
     const changeStatus = (e) => {
         setStatus(e.target.value)
-        formData.status = status
+        formData.status = e.target.value
+        setForm(formData)
     }
 
     const changeHeld = (e) => {
         setHeld(e.target.value)
-        formData.held = held
+        formData.held = e.target.value
+        setForm(formData)
     }
 
     const changeEmail = (e) => {
         setEmail(e.target.value)
-        formData.email = email
+        formData.email = e.target.value
+        setForm(formData)
     }
 
     const changeRole = (e) => {
         setRole(e.target.value)
-        formData.role = role
+        formData.role = e.target.value
+        setForm(formData)
     }
 
     const changeBio = (e) => {
         setBio(e.target.value)
-        formData.bio = bio
+        formData.bio = e.target.value
+        setForm(formData)
     }
 
     const changeInterest = (e) => {
@@ -63,12 +71,15 @@ const Profile = () => {
             interest[value] = false
         }
 
-        formData.interest = interest
+        setInterest(interest)
+        formData['interest']  = interest
+        setForm(formData)
     }
 
     const changeFile = (e) => {
         setFile(e.target.files[0])
         formData.file = file
+        setForm(formData)
     }
 
     useEffect(() => {
@@ -81,20 +92,39 @@ const Profile = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        axios({
-            method: 'post',
-            url: url,
-            data: formData,
-            headers: {'Content-Type': 'multipart/form-data' }
-            })
-        .then(function (response) {
-            //handle success
-            console.log(response);
+        // console.log(formData)
+
+        // let postData = new FormData();
+        // postData = formData
+
+        // console.log(file)
+        // let newFile = new File(file, file.name)
+        
+
+        // postData.append('file', newFile)
+        // postData.append('file', );
+        // postData.append('data', 'tdas');
+
+        axios.post(url, { ...formData }).then((res) => {
+
+        }).catch((err) => {
+            console.log(err);
         })
-        .catch(function (response) {
-            //handle error
-            console.log(response);
-        });
+
+        // axios({
+        //     method: 'post',
+        //     url: url,
+        //     data: formData,
+        //     headers: {'Content-Type': 'multipart/form-data' }
+        //     })
+        // .then(function (response) {
+        //     //handle success
+        //     console.log(response);
+        // })
+        // .catch(function (response) {
+        //     //handle error
+        //     console.log(response);
+        // });
     }
 
     return(
