@@ -42,7 +42,22 @@ app.post('/',function(req, res) {
             return res.status(500).json(err)
         }
 
-        var sql = `INSERT INTO nifty (username, password, status, email, role, held, interest, bio, file, sha256) VALUES ("${req.body.username}", "${req.body.password}", "${req.body.status}", "${req.body.email}", "${req.body.role}", "${req.body.held}", '${req.body.interest}', "${req.body.bio ? req.body.bio : ''}", "${req.body.fileName ? req.body.fileName : '' }", "${req.body.fileName ? req.body.fileName : ''}")`;
+        let sql = "CREATE TABLE IF NOT EXISTS `nifty` (`id` int(11) NOT NULL," + 
+            "`username` varchar(255) CHARACTER SET utf8 DEFAULT NULL," +
+            "`password` varchar(255) CHARACTER SET utf8 DEFAULT NULL," +
+            "`status` varchar(255) CHARACTER SET utf8 DEFAULT NULL," +
+            "`email` varchar(255) CHARACTER SET utf8 DEFAULT NULL," +
+            "`role` varchar(255) CHARACTER SET utf8 DEFAULT NULL," + 
+            "`held` varchar(255) CHARACTER SET utf8 DEFAULT NULL," +
+            "`interest` text CHARACTER SET utf8," +
+            "`bio` text CHARACTER SET utf8," +
+            "`file` varchar(255) CHARACTER SET utf8 DEFAULT NULL," +
+            "`sha256` varchar(255) CHARACTER SET utf8 DEFAULT NULL)"
+        con.query(sql, function (err, result) {
+            if(err) throw err;
+        })
+
+        sql = `INSERT INTO nifty (username, password, status, email, role, held, interest, bio, file, sha256) VALUES ("${req.body.username}", "${req.body.password}", "${req.body.status}", "${req.body.email}", "${req.body.role}", "${req.body.held}", '${req.body.interest}', "${req.body.bio ? req.body.bio : ''}", "${req.body.fileName ? req.body.fileName : '' }", "${req.body.fileName ? req.body.fileName : ''}")`;
         con.query(sql, function (err, result) {
             if(err) throw err;
             console.log("Result: " + result)
