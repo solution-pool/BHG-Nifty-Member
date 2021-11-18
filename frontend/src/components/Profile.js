@@ -2,10 +2,9 @@ import { useState, useEffect, useRef } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
+import { SERVER_URL } from '../config/server'
 
 const Profile = () => {
-
-    const url = 'http://10.10.12.188:8000';
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [status, setStatus] = useState('')
@@ -17,7 +16,6 @@ const Profile = () => {
     const [file, setFile] = useState(null);
     const [interest, setInterest] = useState({})
     const [formData, setForm] = useState({})
-
 
     const form = useRef(null)
 
@@ -111,7 +109,7 @@ const Profile = () => {
             postData.append('fileName', file.name)
         }
         
-        axios.post(url, postData ).then((res) => {
+        axios.post(SERVER_URL, postData ).then((res) => {
             reset()
         }).catch((err) => {
             console.log(err);
