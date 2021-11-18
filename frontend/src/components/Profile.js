@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
+import axios from 'axios';
 
 const handleSubmit = (e) => {
     e.preventDefault()
@@ -8,6 +9,8 @@ const handleSubmit = (e) => {
 
 const Profile = () => {
 
+    let formData = {}
+    const url = 'localhost:8000/nifty';
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [status, setStatus] = useState('')
@@ -16,39 +19,60 @@ const Profile = () => {
     const [role, setRole] = useState('')
     const [bio, setBio] = useState('')
     const [inputFile, setInputFile] = useState(null);
+    const [file, setFile] = useState(null);
+    const [interest, setInterest] = useState({})
 
     const changeUsername = (e) => {
         setUsername(e.target.value)
+        formData.username = username
     }
 
     const changePassword = (e) => {
         setPassword(e.target.value)
+        formData.password = password
     }
 
     const changeStatus = (e) => {
         setStatus(e.target.value)
+        formData.status = status
     }
 
     const changeHeld = (e) => {
         setHeld(e.target.value)
+        formData.held = held
     }
 
     const changeEmail = (e) => {
         setEmail(e.target.value)
+        formData.email = email
     }
 
     const changeRole = (e) => {
         setRole(e.target.value)
+        formData.role = role
     }
 
     const changeBio = (e) => {
         setBio(e.target.value)
+        formData.bio = bio
     }
 
-    
-    const changeInterest = (e, field) => {
-        console.log(e, field)
-        // setInterest()
+    const changeInterest = (e) => {
+        const value = e.target.value
+        const checked = e.target.checked
+
+        if(checked) {
+            interest[value] = true
+        } else {
+            interest[value] = false
+        }
+
+        formData.interest = interest
+    }
+
+    const changeFile = (e) => {
+        setFile(e.target.files[0])
+        formData.file = file
     }
 
     useEffect(() => {
@@ -59,8 +83,22 @@ const Profile = () => {
       inputFile?.click();
     };
 
-    const handleSubmit = () => {
-        
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        axios({
+            method: 'post',
+            url: url,
+            data: formData,
+            headers: {'Content-Type': 'multipart/form-data' }
+            })
+        .then(function (response) {
+            //handle success
+            console.log(response);
+        })
+        .catch(function (response) {
+            //handle error
+            console.log(response);
+        });
     }
 
     return(
@@ -118,77 +156,77 @@ const Profile = () => {
                                     <Row>
                                         <Col lg="4" md="6" sm="12" className="checkbox-col">
                                             <Form.Group className="mb-3">
-                                                <Form.Check type="checkbox" label="Artist" />
+                                                <Form.Check type="checkbox" label="Artist" value="A" onChange={changeInterest} />
                                             </Form.Group>
                                         </Col>
                                         <Col lg="4" md="6" sm="12" className="checkbox-col">
                                             <Form.Group className="mb-3">
-                                                <Form.Check type="checkbox" label="Musician" />
+                                                <Form.Check type="checkbox" label="Musician" value="B" onChange={changeInterest}  />
                                             </Form.Group>
                                         </Col>
                                         <Col lg="4" md="6" sm="12" className="checkbox-col">
                                             <Form.Group className="mb-3">
-                                                <Form.Check type="checkbox" label="Web Dev" />
+                                                <Form.Check type="checkbox" label="Web Dev" value="C" onChange={changeInterest}  />
                                             </Form.Group>
                                         </Col>
                                         <Col lg="4" md="6" sm="12" className="checkbox-col">
                                             <Form.Group className="mb-3">
-                                                <Form.Check type="checkbox" label="Project Manager" />
+                                                <Form.Check type="checkbox" label="Project Manager" value="D" onChange={changeInterest}  />
                                             </Form.Group>
                                         </Col>
                                         <Col lg="4" md="6" sm="12" className="checkbox-col">
                                             <Form.Group className="mb-3">
-                                                <Form.Check type="checkbox" label="Business Dev" />
+                                                <Form.Check type="checkbox" label="Business Dev" value="E" onChange={changeInterest}  />
                                             </Form.Group>
                                         </Col>
                                         <Col lg="4" md="6" sm="12" className="checkbox-col">
                                             <Form.Group className="mb-3">
-                                                <Form.Check type="checkbox" label="Game Dev" />
+                                                <Form.Check type="checkbox" label="Game Dev" value="F" onChange={changeInterest}  />
                                             </Form.Group>
                                         </Col>
                                         <Col lg="4" md="6" sm="12" className="checkbox-col">
                                             <Form.Group className="mb-3">
-                                                <Form.Check type="checkbox" label="Marketing/Promotion" />
+                                                <Form.Check type="checkbox" label="Marketing/Promotion" value="G" onChange={changeInterest}  />
                                             </Form.Group>
                                         </Col>
                                         <Col lg="4" md="6" sm="12" className="checkbox-col">
                                             <Form.Group className="mb-3">
-                                                <Form.Check type="checkbox" label="Data Analyst" />
+                                                <Form.Check type="checkbox" label="Data Analyst" value="H" onChange={changeInterest}  />
                                             </Form.Group>
                                         </Col>
                                         <Col lg="4" md="6" sm="12" className="checkbox-col">
                                             <Form.Group className="mb-3">
-                                                <Form.Check type="checkbox" label="Collector" />
+                                                <Form.Check type="checkbox" label="Collector" value="I" onChange={changeInterest}  />
                                             </Form.Group>
                                         </Col>
                                         <Col lg="4" md="6" sm="12" className="checkbox-col">
                                             <Form.Group className="mb-3">
-                                                <Form.Check type="checkbox" label="Smart Contracts" />
+                                                <Form.Check type="checkbox" label="Smart Contracts" value="J" onChange={changeInterest}  />
                                             </Form.Group>
                                         </Col>
                                         <Col lg="4" md="6" sm="12" className="checkbox-col">
                                             <Form.Group className="mb-3">
-                                                <Form.Check type="checkbox" label="AI" />
+                                                <Form.Check type="checkbox" label="AI" value="K" onChange={changeInterest}  />
                                             </Form.Group>
                                         </Col>
                                         <Col lg="4" md="6" sm="12" className="checkbox-col">
                                             <Form.Group className="mb-3">
-                                                <Form.Check type="checkbox" label="Social Media Manager" />
+                                                <Form.Check type="checkbox" label="Social Media Manager" value="L" onChange={changeInterest}  />
                                             </Form.Group>
                                         </Col>
                                         <Col lg="4" md="6" sm="12" className="checkbox-col">
                                             <Form.Group className="mb-3">
-                                                <Form.Check type="checkbox" label="Photographer" />
+                                                <Form.Check type="checkbox" label="Photographer" value="M" onChange={changeInterest}  />
                                             </Form.Group>
                                         </Col>
                                         <Col lg="4" md="6" sm="12" className="checkbox-col">
                                             <Form.Group className="mb-3">
-                                                <Form.Check type="checkbox" label="Discord Mod" />
+                                                <Form.Check type="checkbox" label="Discord Mod" value="N" onChange={changeInterest}  />
                                             </Form.Group>
                                         </Col>
                                         <Col lg="4" md="6" sm="12" className="checkbox-col">
                                             <Form.Group className="mb-3">
-                                                <Form.Check type="checkbox" label="Other" />
+                                                <Form.Check type="checkbox" label="Other" value="O" onChange={changeInterest}  />
                                             </Form.Group>
                                         </Col>
                                     </Row>
@@ -205,8 +243,8 @@ const Profile = () => {
                             <Form.Group className="mb-4">
                                 <Form.Label style={{visibility:'hidden'}}>Bio</Form.Label>
                                 <div className="footer-element file-panel">
-                                    <input id="input-file" className="d-none" type="file" />
-                                    <Button variant="light" type="file" onClick={handleUpload}>Choose File(s)</Button>
+                                    <input id="input-file" type="file" className="d-none" onChange={changeFile} />
+                                    <Button variant="light" onClick={handleUpload}>Choose File(s)</Button>
                                 </div>
                             </Form.Group>
                         </Col>
