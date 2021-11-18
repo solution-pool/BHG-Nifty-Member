@@ -151,37 +151,37 @@ const Profile = () => {
                         <Col lg="4" md="6" sm="12" className="main-col">
                             <Form.Group controlId="formUsername">
                                 <Form.Label>Create Username</Form.Label>
-                                <Form.Control type="text" placeholder="Use Wallet Address(default)" value={username} onChange={changeUsername} />
+                                <Form.Control type="text" placeholder="Use Wallet Address(default)" value={username} onChange={changeUsername} required />
                             </Form.Group>
                         </Col>
                         <Col lg="4" md="6" sm="12" className="main-col">
                             <Form.Group controlId="formPassword">
                                 <Form.Label>Create Password</Form.Label>
-                                <Form.Control type="password" placeholder="Create Password" value={password} onChange={changePassword} />
+                                <Form.Control type="password" placeholder="Create Password" value={password} onChange={changePassword} required />
                             </Form.Group>
                         </Col>
                         <Col lg="4" md="6" sm="12" className="main-col">
                             <Form.Group controlId="formStatus">
                                 <Form.Label>Profile Status</Form.Label>
-                                <Form.Control type="text" placeholder="" value={status} onChange={changeStatus} />
+                                <Form.Control type="text" placeholder="" value={status} onChange={changeStatus} required />
                             </Form.Group>
                         </Col>
                         <Col lg="4" md="6" sm="12" className="main-col">
                             <Form.Group className="mb-4" controlId="formEmail">
                                 <Form.Label>Email</Form.Label>
-                                <Form.Control type="text" placeholder="Email" value={email} onChange={changeEmail} />
+                                <Form.Control type="email" placeholder="Email" value={email} onChange={changeEmail} required />
                             </Form.Group>
                         </Col>
                         <Col lg="4" md="6" sm="12" className="main-col">
                             <Form.Group controlId="formRole">
                                 <Form.Label>Role</Form.Label>
-                                <Form.Control type="text" placeholder="Role" value={role} onChange={changeRole} />
+                                <Form.Control type="text" placeholder="Role" value={role} onChange={changeRole} required />
                             </Form.Group>
                         </Col>
                         <Col lg="4" md="6" sm="12" className="main-col">
                             <Form.Group controlId="formHeld">
                                 <Form.Label>Nodestone(s) Held</Form.Label>
-                                <Form.Control type="text" placeholder="Nodestone(s) Held" value={held} onChange={changeHeld} />
+                                <Form.Control type="text" placeholder="Nodestone(s) Held" value={held} onChange={changeHeld} required/>
                             </Form.Group>
                         </Col>
                         <Col lg="12" md="12" className="main-col">
