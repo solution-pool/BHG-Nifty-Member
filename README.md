@@ -1,6 +1,6 @@
 # BHG-Nifty-Member
 
-This project is a simple template for saving user data with React as FRONTEND and Nodejs as backend and Mysql as database.
+This project is a simple template for saving form data and uploading file with React as FRONTEND and Nodejs as backend and Mysql as database.
 
 ## Prerequisities
 
