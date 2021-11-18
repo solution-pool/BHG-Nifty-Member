@@ -145,4 +145,42 @@
   .content .submit-panel {
     height: 0 !important;
   }
+
+  .navbar-collapse {
+    position: absolute !important;
+    width: calc(50% - 1.4rem);
+    height: auto!important;
+    right: 0;
+    top: 0;
+    margin: 0.7rem;
+    margin-right: 0.4rem;
+    background-color: #6c757d;
+    border-radius: 0.2857rem;
+    padding: 1.4rem;
+  }
+
+  #for-collapse {
+    display: block !important;
+    float: right;
+    border:0px
+  }
+
+  .me-auto a, .navbar-nav a {
+    text-align: center;
+  }
+
+  .me-auto i {
+    padding-left: 0px;
+  }
+
+  .me-auto img {
+    width: 2.5rem;
+    padding-left: 0px;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  #for-collapse {
+    display: none;
+  }
 }

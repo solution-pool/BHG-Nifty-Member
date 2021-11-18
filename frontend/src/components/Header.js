@@ -24,9 +24,10 @@ const Header = () => {
         <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
             <Container>
                 <Navbar.Brand href="#">Nifty</Navbar.Brand>
-                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                <Navbar.Toggle aria-controls="responsive-navbar-nav" id="for-full" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
+                        <Navbar.Toggle aria-controls="responsive-navbar-nav" id="for-collapse" />
                         <Nav.Link href="https://twitter.com">
                             <i className="fab fa-twitter"></i>
                         </Nav.Link>
