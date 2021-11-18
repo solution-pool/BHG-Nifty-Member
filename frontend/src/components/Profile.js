@@ -3,10 +3,6 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 
-const handleSubmit = (e) => {
-    e.preventDefault()
-}
-
 const Profile = () => {
 
     let formData = {}
