@@ -18,6 +18,7 @@ const Profile = () => {
     const [formData, setForm] = useState({})
     const [alertComment, setAlertComment] = useState('Successed !')
     const [alertClass, setAlertClass] = useState('success')
+    const [fileUploadButtonLabel, setButtonLabel] = useState('Choose File')
 
     const form  = useRef(null)
     const alert = useRef(null) 
@@ -83,12 +84,12 @@ const Profile = () => {
         setFile(e.target.files[0])
         formData.file = file
         setForm(formData)
+        setButtonLabel(e.target.files[0].name)
     }
 
     useEffect(() => {
       setInputFile(document.getElementById("input-file"));
       alert.current.style.display = 'none'
-      console.log('Hi')
     }, []);
   
     const handleUpload = () => {
@@ -311,7 +312,7 @@ const Profile = () => {
                                 <Form.Label style={{visibility:'hidden'}}>Bio</Form.Label>
                                 <div className="footer-element file-panel">
                                     <input id="input-file" type="file" name="file" className="d-none" onChange={changeFile} />
-                                    <Button variant="light" onClick={handleUpload}>Choose File(s)</Button>
+                                    <Button variant="light" id="file-upload-button" onClick={handleUpload}>{fileUploadButtonLabel}</Button>
                                 </div>
                             </Form.Group>
                         </Col>

@@ -102,6 +102,7 @@
   text-align: center;
   margin : auto;
   background-color: white;
+  overflow: auto;
 }
 
 .content .file-panel button {
@@ -133,6 +134,11 @@
 
 .margin-top-30 {
   margin-top: 30px;
+}
+
+#file-upload-button {
+  word-break: break-all;
+  margin: 10px;
 }
 
 @media only screen and (max-width: 991px) {
