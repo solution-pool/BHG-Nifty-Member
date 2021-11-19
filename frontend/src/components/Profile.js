@@ -14,13 +14,16 @@ const Profile = (props) => {
     const [role, setRole] = useState('')
     const [bio, setBio] = useState('')
     const [inputFile, setInputFile] = useState(null);
+    const [inputImage, setImageFile] = useState(null);
     const [file, setFile] = useState(null);
+    const [image, setImage] = useState(null);
     const [interest, setInterest] = useState({})
     const [formData, setForm] = useState({})
     const [fileUploadButtonLabel, setButtonLabel] = useState('Choose File')
 
     const form  = useRef(null)
     const userRef = useRef(null) 
+    const imageRef = useRef(null)
 
     const changePassword = (e) => {
         setPassword(e.target.value)
@@ -80,10 +83,16 @@ const Profile = (props) => {
         setButtonLabel(e.target.files[0].name)
     }
 
+    const changeImage = (e) => {
+        const url = URL.createObjectURL(e.target.files[0])
+        imageRef.current.src = url
+    }
+
     useEffect(() => {
 
         
       setInputFile(document.getElementById("input-file"));
+      setImageFile(document.getElementById("input-image"));
 
       let username = userRef.current.value
       if(username) {
@@ -117,6 +126,11 @@ const Profile = (props) => {
     const handleUpload = () => {
       inputFile?.click();
     };
+
+    const handleImage = () => {
+        console.log('Hello')
+        inputImage?.click()
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -183,8 +197,11 @@ const Profile = (props) => {
             <Row className="avatar">
                 <h1>Nifty Profile</h1>
                 <p>
-                    Information collected will be used to <br />
+                    <span>Information collected will be used to <br />
                     communicate and collaborate on projects.
+                    </span>
+                    <input id="input-image" accept="image/*" type="file" name="image" className="d-none" onChange={changeImage} />
+                    <img ref={imageRef} src={require('../assets/img/avatar.png').default} onClick={handleImage}/>
                 </p>
             </Row>
             <Row className="content">

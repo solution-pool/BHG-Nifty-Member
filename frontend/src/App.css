@@ -84,10 +84,30 @@
   padding: 0;
 }
 
+.avatar {
+  position: relative;
+}
 .avatar p {
   font-size: 0.875rem;
   line-height: 1.1;
   padding: 0;
+}
+
+.avatar span {
+  display: inline-block;
+}
+.avatar img {
+  position: absolute;
+  width: 4rem;
+  left: 50%;
+  vertical-align: middle;
+  width: 6rem;
+  top: 0.68rem;
+  height: 6rem;
+  cursor: pointer;
+  border-radius: 50%;
+  z-index: 100;
+  /* height: ; */
 }
 
 .content {
@@ -204,5 +224,24 @@
 @media only screen and (min-width: 992px) {
   #for-collapse {
     display: none;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .avatar img {
+    left : 18rem;
+  }
+}
+
+@media only screen and (max-width: 406px) {
+  .avatar span {
+    display: block;
+  }
+
+  .avatar img {
+    /* margin-top: ; */
+    position: relative;
+    display: block;
+    left: calc(50% - 3rem);
   }
 }
