@@ -1,24 +1,6 @@
-// import 
-import { useState } from 'react';
-import { Navbar, Container, Nav, NavDropdown, Button } from 'react-bootstrap';
-import Web3 from 'web3';
+import { Navbar, Container, Nav, Button } from 'react-bootstrap';
 
-const Header = () => {
-    const [walletConnectFlag, setFlag] = useState(false)
-
-    const walletConnect = async () => {
-        if(window.ethereum) {
-            window.web3 = new Web3(window.ethereum)
-            await window.ethereum.enable()
-            setFlag(true)
-        } else if(window.web3) {
-            window.web3 = new Web3(window.web3.currentProvider)
-            setFlag(true)
-        } else {
-            window.alert('Non-Ethereum browser detected. Your should consider trying MetaMask!')
-            setFlag(false)
-        }
-    }
+const Header = (props) => {
 
     return (
         <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
@@ -39,11 +21,9 @@ const Header = () => {
                         </Nav.Link>
                     </Nav>
                     <Nav>
-                    {!walletConnectFlag ? (
                         <Nav.Link>
-                            <Button variant="light" id="connect-wallet" onClick={walletConnect}>Connect Wallet</Button>
+                            <Button variant="light" id="connect-wallet" onClick={props.walletConnect}>{props.address ? props.address : 'Connect wallet'}</Button>
                         </Nav.Link>
-                    ) : ('')}
                     </Nav>
                 </Navbar.Collapse>
             </Container>

@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 import { SERVER_URL } from '../config/server'
 
-const Profile = () => {
+const Profile = (props) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [status, setStatus] = useState('')
@@ -198,7 +198,7 @@ const Profile = () => {
                         <Col lg="4" md="6" sm="12" className="main-col">
                             <Form.Group controlId="formUsername">
                                 <Form.Label>Create Username</Form.Label>
-                                <Form.Control type="text" placeholder="Use Wallet Address(default)" value={username} onChange={changeUsername} required />
+                                <Form.Control type="text" placeholder="Use Wallet Address(default)" defaultValue={props.address ? props.address : ''} onChange={changeUsername} required />
                             </Form.Group>
                         </Col>
                         <Col lg="4" md="6" sm="12" className="main-col">
