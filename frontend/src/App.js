@@ -28,8 +28,8 @@ function App() {
   }
   return (
     <div className="App">
-      <Header connect={walletConnect} address={walletAddress} />
-      <Profile address={walletAddress} />
+      <Header connect={walletConnect} address={walletAddress[0]} />
+      <Profile address={walletAddress[0]} />
     </div>
   );
 }

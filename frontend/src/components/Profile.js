@@ -81,8 +81,38 @@ const Profile = (props) => {
     }
 
     useEffect(() => {
+
+        
       setInputFile(document.getElementById("input-file"));
-    }, []);
+
+      let username = userRef.current.value
+      if(username) {
+          let data = new FormData(form.current)
+          data.append('username', username)
+          
+          axios.post(SERVER_URL + '/get', data).then((res) => {
+              if(res.data[0]) {
+                setPassword(res.data[0].password)
+                setStatus(res.data[0].status)
+                setHeld(res.data[0].held)
+                setEmail(res.data[0].email)
+                setRole(res.data[0].role)
+                setBio(res.data[0].bio)
+                setButtonLabel(res.data[0].file);
+
+                let interests = JSON.parse(res.data[0].interest)
+                setInterest(interests)
+                for(let oneCheck in interests) {
+                    let checkbox = document.getElementById("checkbox_interest_" + oneCheck)
+                    checkbox.checked = interests[oneCheck]
+                }
+            } else {
+                reset()
+            }
+          }).catch((err) => {
+          })
+      }
+    }, [props.address]);
   
     const handleUpload = () => {
       inputFile?.click();
@@ -203,77 +233,77 @@ const Profile = (props) => {
                                     <Row>
                                         <Col lg="4" md="6" sm="12" className="checkbox-col">
                                             <Form.Group className="mb-3" controlId="formInterestArtist">
-                                                <Form.Check type="checkbox" label="Artist" className="interest" value="A" onChange={changeInterest} />
+                                                <Form.Check type="checkbox" label="Artist" className="interest" id="checkbox_interest_A" value="A" onChange={changeInterest} />
                                             </Form.Group>
                                         </Col>
                                         <Col lg="4" md="6" sm="12" className="checkbox-col">
                                             <Form.Group className="mb-3" controlId="formInterestMusician">
-                                                <Form.Check type="checkbox" label="Musician" className="interest" value="B" onChange={changeInterest}  />
+                                                <Form.Check type="checkbox" label="Musician" className="interest" id="checkbox_interest_B" value="B" onChange={changeInterest}  />
                                             </Form.Group>
                                         </Col>
                                         <Col lg="4" md="6" sm="12" className="checkbox-col">
                                             <Form.Group className="mb-3" controlId="formInterestWeb">
-                                                <Form.Check type="checkbox" label="Web Dev" className="interest" value="C" onChange={changeInterest}  />
+                                                <Form.Check type="checkbox" label="Web Dev" className="interest" id="checkbox_interest_C" value="C" onChange={changeInterest}  />
                                             </Form.Group>
                                         </Col>
                                         <Col lg="4" md="6" sm="12" className="checkbox-col">
                                             <Form.Group className="mb-3" controlId="formInterestProject">
-                                                <Form.Check type="checkbox" label="Project Manager" className="interest" value="D" onChange={changeInterest}  />
+                                                <Form.Check type="checkbox" label="Project Manager" className="interest" id="checkbox_interest_D" value="D" onChange={changeInterest}  />
                                             </Form.Group>
                                         </Col>
                                         <Col lg="4" md="6" sm="12" className="checkbox-col">
                                             <Form.Group className="mb-3" controlId="formInterestBusiness">
-                                                <Form.Check type="checkbox" label="Business Dev" className="interest" value="E" onChange={changeInterest}  />
+                                                <Form.Check type="checkbox" label="Business Dev" className="interest" id="checkbox_interest_E" value="E" onChange={changeInterest}  />
                                             </Form.Group>
                                         </Col>
                                         <Col lg="4" md="6" sm="12" className="checkbox-col">
                                             <Form.Group className="mb-3" controlId="formInterestGame">
-                                                <Form.Check type="checkbox" label="Game Dev" className="interest" value="F" onChange={changeInterest}  />
+                                                <Form.Check type="checkbox" label="Game Dev" className="interest" id="checkbox_interest_F" value="F" onChange={changeInterest}  />
                                             </Form.Group>
                                         </Col>
                                         <Col lg="4" md="6" sm="12" className="checkbox-col">
                                             <Form.Group className="mb-3" controlId="formInterestMarketing">
-                                                <Form.Check type="checkbox" label="Marketing/Promotion" className="interest" value="G" onChange={changeInterest}  />
+                                                <Form.Check type="checkbox" label="Marketing/Promotion" className="interest" id="checkbox_interest_G" value="G" onChange={changeInterest}  />
                                             </Form.Group>
                                         </Col>
                                         <Col lg="4" md="6" sm="12" className="checkbox-col">
                                             <Form.Group className="mb-3" controlId="formInterestData">
-                                                <Form.Check type="checkbox" label="Data Analyst" className="interest" value="H" onChange={changeInterest}  />
+                                                <Form.Check type="checkbox" label="Data Analyst" className="interest" id="checkbox_interest_H" value="H" onChange={changeInterest}  />
                                             </Form.Group>
                                         </Col>
                                         <Col lg="4" md="6" sm="12" className="checkbox-col">
                                             <Form.Group className="mb-3" controlId="formInterestCollector">
-                                                <Form.Check type="checkbox" label="Collector" className="interest" value="I" onChange={changeInterest}  />
+                                                <Form.Check type="checkbox" label="Collector" className="interest" id="checkbox_interest_I" value="I" onChange={changeInterest}  />
                                             </Form.Group>
                                         </Col>
                                         <Col lg="4" md="6" sm="12" className="checkbox-col">
                                             <Form.Group className="mb-3" controlId="formInterestSmart">
-                                                <Form.Check type="checkbox" label="Smart Contracts" className="interest" value="J" onChange={changeInterest}  />
+                                                <Form.Check type="checkbox" label="Smart Contracts" className="interest" id="checkbox_interest_J" value="J" onChange={changeInterest}  />
                                             </Form.Group>
                                         </Col>
                                         <Col lg="4" md="6" sm="12" className="checkbox-col">
                                             <Form.Group className="mb-3" controlId="formInterestAI">
-                                                <Form.Check type="checkbox" label="AI" className="interest" value="K" onChange={changeInterest}  />
+                                                <Form.Check type="checkbox" label="AI" className="interest" id="checkbox_interest_K" value="K" onChange={changeInterest}  />
                                             </Form.Group>
                                         </Col>
                                         <Col lg="4" md="6" sm="12" className="checkbox-col">
                                             <Form.Group className="mb-3" controlId="formInterestSocial">
-                                                <Form.Check type="checkbox" label="Social Media Manager" className="interest" value="L" onChange={changeInterest}  />
+                                                <Form.Check type="checkbox" label="Social Media Manager" className="interest" id="checkbox_interest_L" value="L" onChange={changeInterest}  />
                                             </Form.Group>
                                         </Col>
                                         <Col lg="4" md="6" sm="12" className="checkbox-col">
                                             <Form.Group className="mb-3" controlId="formInterestPhotographer">
-                                                <Form.Check type="checkbox" label="Photographer" className="interest" value="M" onChange={changeInterest}  />
+                                                <Form.Check type="checkbox" label="Photographer" className="interest" id="checkbox_interest_M" value="M" onChange={changeInterest}  />
                                             </Form.Group>
                                         </Col>
                                         <Col lg="4" md="6" sm="12" className="checkbox-col">
                                             <Form.Group className="mb-3" controlId="formInterestDiscord">
-                                                <Form.Check type="checkbox" label="Discord Mod" className="interest" value="N" onChange={changeInterest}  />
+                                                <Form.Check type="checkbox" label="Discord Mod" className="interest" id="checkbox_interest_N" value="N" onChange={changeInterest}  />
                                             </Form.Group>
                                         </Col>
                                         <Col lg="4" md="6" sm="12" className="checkbox-col">
                                             <Form.Group className="mb-3" controlId="formInterestOther">
-                                                <Form.Check type="checkbox" label="Other" className="interest" value="O" onChange={changeInterest}  />
+                                                <Form.Check type="checkbox" label="Other" className="interest" id="checkbox_interest_O" value="O" onChange={changeInterest}  />
                                             </Form.Group>
                                         </Col>
                                     </Row>
