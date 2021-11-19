@@ -42,7 +42,8 @@ app.post('/',function(req, res) {
             return res.status(500).json(err)
         }
 
-        let sql = "CREATE TABLE IF NOT EXISTS `nifty` (`id` int(11) NOT NULL," + 
+        let sql = "CREATE TABLE IF NOT EXISTS `nifty` (" +
+            "`id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT," + 
             "`username` varchar(255) CHARACTER SET utf8 DEFAULT NULL," +
             "`password` varchar(255) CHARACTER SET utf8 DEFAULT NULL," +
             "`status` varchar(255) CHARACTER SET utf8 DEFAULT NULL," +
