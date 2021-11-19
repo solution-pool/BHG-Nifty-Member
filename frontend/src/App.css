@@ -28,6 +28,10 @@
   --bs-gutter-x: 0 !important;
 }
 
+.notification-container {
+  width: 50% !important;
+}
+
 .navbar-light .navbar-brand {
   color: rgba(0,0,0,.9);
   font-size: 2.5rem;

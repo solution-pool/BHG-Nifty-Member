@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
-import { Container, Row, Col, Button, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 import { SERVER_URL } from '../config/server'
+import {NotificationContainer, NotificationManager} from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 
 const Profile = (props) => {
     const [username, setUsername] = useState('')
@@ -16,8 +18,6 @@ const Profile = (props) => {
     const [file, setFile] = useState(null);
     const [interest, setInterest] = useState({})
     const [formData, setForm] = useState({})
-    const [alertComment, setAlertComment] = useState('Successed !')
-    const [alertClass, setAlertClass] = useState('success')
     const [fileUploadButtonLabel, setButtonLabel] = useState('Choose File')
 
     const form  = useRef(null)
@@ -89,7 +89,6 @@ const Profile = (props) => {
 
     useEffect(() => {
       setInputFile(document.getElementById("input-file"));
-      alert.current.style.display = 'none'
     }, []);
   
     const handleUpload = () => {
@@ -118,35 +117,18 @@ const Profile = (props) => {
         for(let p of postData) {
             if(p[1] ===  undefined) {
                 window.scrollTo(0, 0)
-                setAlertClass('danger')
-                setAlertComment('An error occurred while typing data. Please reload the page and try again.')
-                showAlert(true)
-                setTimeout(() => {
-                    showAlert(false)
-                }, 5000)
+                NotificationManager.error('An error occurred while typing data. Please reload the page and try again.', 'Error', 5000)
                 return
             }
         }
         
         axios.post(SERVER_URL, postData ).then((res) => {
-            console.log(res)
             reset()
             window.scrollTo(0, 0)
-            setAlertClass('success')
-            setAlertComment('Success. The data you typed saved.')
-            showAlert(true)
-            setTimeout(() => {
-                showAlert(false)
-            }, 5000)
+            NotificationManager.success('The data saved successfully.', 'Success', 5000)
         }).catch((err) => {
-            console.log(err);
             window.scrollTo(0, 0)
-            setAlertClass('danger')
-            setAlertComment('The server connection failed. Please make sure if you are connected to the server correctly.')
-            showAlert(true)
-            setTimeout(() => {
-                showAlert(false)
-            }, 5000)
+            NotificationManager.error('The server connection failed. Please make sure if you are connected to the server correctly.', 'Error', 5000)
         })
     }
 
@@ -171,20 +153,9 @@ const Profile = (props) => {
         }
     }
 
-    const showAlert = show => {
-        if(show) {
-            alert.current.style.display = 'block'
-            console.log('Hello')
-        } else {
-            alert.current.style.display = 'none'
-        }
-    }
-
     return(
         <Container>
-            <Alert key={0} variant={alertClass} className="margin-top-30" ref={alert} style={{ display: 'none'}}>
-                {alertComment}
-            </Alert>
+            <NotificationContainer />
             <Row className="avatar">
                 <h1>Nifty Profile</h1>
                 <p>
