@@ -6,17 +6,19 @@ const Header = (props) => {
         <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
             <Container>
                 <Navbar.Brand href="#">Nifty</Navbar.Brand>
-                <Navbar.Toggle aria-controls="responsive-navbar-nav" id="for-full" />
+                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
-                        <Navbar.Toggle aria-controls="responsive-navbar-nav" id="for-collapse" />
                         <Nav.Link href="https://twitter.com">
+                            <span>Twitter</span>
                             <i className="fab fa-twitter"></i>
                         </Nav.Link>
                         <Nav.Link href="https://discord.com">
+                            <span>Discord</span>
                             <i className="fab fa-discord"></i>
                         </Nav.Link>
                         <Nav.Link href="https://opensea.io">
+                            <span>Opensea</span>
                             <img src={require('../assets/img/logo.svg').default} alt="Opensea icon" />
                         </Nav.Link>
                     </Nav>
