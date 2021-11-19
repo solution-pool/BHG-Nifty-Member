@@ -116,7 +116,7 @@ const Profile = (props) => {
         }
 
         for(let p of postData) {
-            if(p[1] ==  undefined) {
+            if(p[1] ===  undefined) {
                 window.scrollTo(0, 0)
                 setAlertClass('danger')
                 setAlertComment('An error occurred while typing data. Please reload the page and try again.')

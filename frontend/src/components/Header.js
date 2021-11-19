@@ -17,7 +17,7 @@ const Header = (props) => {
                             <i className="fab fa-discord"></i>
                         </Nav.Link>
                         <Nav.Link href="https://opensea.io">
-                            <img src={require('../assets/img/logo.svg').default} />
+                            <img src={require('../assets/img/logo.svg').default} alt="Opensea icon" />
                         </Nav.Link>
                     </Nav>
                     <Nav>
