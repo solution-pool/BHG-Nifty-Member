@@ -47,10 +47,21 @@
 }
 
 #connect-wallet {
-  background-color: white;
-  width: 100%;
+  outline: unset;
+  border: unset;
+  font-size: 28px;
+  line-height: 33px;
   text-overflow: ellipsis;
+  white-space: break-spaces;
   overflow: hidden;
+  max-width: 10em;
+  color: #000;
+  background-color: #fff;
+  padding: 10px 30px;
+}
+
+#connect-wallet:hover {
+  border: 1px solid #8b8b8b;
 }
 
 @keyframes App-logo-spin {
@@ -142,6 +153,10 @@
 #file-upload-button {
   word-break: break-all;
   margin: 10px;
+}
+
+#file-upload-button:hover {
+  border: 1px solid #8b8b8b;
 }
 
 @media only screen and (max-width: 991px) {
