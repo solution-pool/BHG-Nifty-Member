@@ -7,7 +7,6 @@ import {NotificationContainer, NotificationManager} from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 
 const Profile = (props) => {
-    const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [status, setStatus] = useState('')
     const [held, setHeld] = useState('')
@@ -21,13 +20,7 @@ const Profile = (props) => {
     const [fileUploadButtonLabel, setButtonLabel] = useState('Choose File')
 
     const form  = useRef(null)
-    const alert = useRef(null) 
-
-    const changeUsername = (e) => {
-        setUsername(e.target.value)
-        formData.username = e.target.value
-        setForm(formData)
-    }
+    const userRef = useRef(null) 
 
     const changePassword = (e) => {
         setPassword(e.target.value)
@@ -101,6 +94,8 @@ const Profile = (props) => {
         let postData = new FormData(form.current);
         
         let jsonOfInteret = JSON.stringify(interest)
+
+        let username = userRef.current.value
         postData.append('username', username)
         postData.append('password', password)
         postData.append('status', status)
@@ -133,7 +128,6 @@ const Profile = (props) => {
     }
 
     const reset = () => {
-        setUsername('')
         setPassword('')
         setStatus('')
         setHeld('')
@@ -169,7 +163,7 @@ const Profile = (props) => {
                         <Col lg="4" md="6" sm="12" className="main-col">
                             <Form.Group controlId="formUsername">
                                 <Form.Label>Create Username</Form.Label>
-                                <Form.Control type="text" placeholder="Use Wallet Address(default)" defaultValue={props.address ? props.address : ''} onChange={changeUsername} required />
+                                <Form.Control type="text" ref={userRef} placeholder="Use Wallet Address(default)" defaultValue={props.address ? props.address : ''} required />
                             </Form.Group>
                         </Col>
                         <Col lg="4" md="6" sm="12" className="main-col">
