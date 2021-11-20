@@ -100,6 +100,8 @@ const Profile = (props) => {
                                     checkbox.checked = interests[oneCheck]
                                 }
                                 break
+                            } else {
+                                reset()
                             }
                         }
                     }
@@ -200,7 +202,7 @@ const Profile = (props) => {
                                     load.file = oneArry.file ? oneArry.file : ''
                                     load.fileName = oneArry.fileName ? oneArry.fileName : ''
                                 } 
-                                
+
                                 if(!image) {
                                     load.image = oneArry.image ? oneArry.image : ''
                                     load.fileName = oneArry.fileName ? oneArry.fileName : ''
