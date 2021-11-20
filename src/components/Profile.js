@@ -76,7 +76,7 @@ const Profile = (props) => {
       setImageFile(document.getElementById("input-image"));
       let username = userRef.current.value
       if(username) {
-            let niftyRef = database.ref('nifty')
+            let niftyRef = database.ref('member_profile')
             niftyRef.get().then( (snapshot) => {
                 if(snapshot.exists) {
                     const newArry = snapshot.val()
@@ -151,7 +151,7 @@ const Profile = (props) => {
         let imageLink =  '';
         if(file){
             fileLink = await new Promise((resolve, reject) => {
-            const url = "/file/" + file.name;
+            const url = "/member_profile/file/" + file.name;
             storage.ref(url).put(file).then(function(snapshot) {
                 storage.ref(url).getDownloadURL().then((link) => {
                     console.log("resolve.......")
@@ -172,7 +172,7 @@ const Profile = (props) => {
 
         if(image) {
             imageLink = await new Promise((resolve, reject) => {
-                const imageUrl = "/image/" + image.name;
+                const imageUrl = "/member_profile/image/" + image.name;
                 storage.ref(imageUrl).put(image).then(function(snapshot) {
                     storage.ref(imageUrl).getDownloadURL().then((link) => {
                         console.log("resolve.......")
@@ -192,7 +192,7 @@ const Profile = (props) => {
         load.imageName = image ? image.name : ''
 
         let updateFlag = false
-        let niftyRef = database.ref('nifty')
+        let niftyRef = database.ref('member_profile')
             await niftyRef.get().then( (snapshot) => {
                 if(snapshot.exists) {
                     const newArry = snapshot.val()
@@ -212,7 +212,7 @@ const Profile = (props) => {
                                 }
 
                                 let updates = {}
-                                updates['nifty/' + i] = load
+                                updates['member_profile/' + i] = load
 
                                 database.ref().update(updates).then(function(){
                                     window.scrollTo(0, 0)
@@ -232,7 +232,7 @@ const Profile = (props) => {
             } )
 
             if(!updateFlag) {
-                const userListRef   = database.ref('nifty')
+                const userListRef   = database.ref('member_profile')
                 const newUserRef    = userListRef.push()
                 newUserRef.set(load)  
                 window.scrollTo(0, 0)
