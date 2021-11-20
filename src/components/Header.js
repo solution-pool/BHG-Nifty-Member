@@ -5,21 +5,23 @@ const Header = (props) => {
     return (
         <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
             <Container>
-                <Navbar.Brand href="#">Nifty</Navbar.Brand>
+                <Navbar.Brand href="#">
+                    <img src={require('../assets/img/nifty.svg').default} />
+                </Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
                         <Nav.Link href="https://twitter.com/nifty_io">
                             <span>Twitter</span>
-                            <i className="fab fa-twitter"></i>
+                            <img src={require('../assets/img/twitter.svg').default} alt="Twitter icon" />
                         </Nav.Link>
                         <Nav.Link href="https://discord.com/nifty">
                             <span>Discord</span>
-                            <i className="fab fa-discord"></i>
+                            <img src={require('../assets/img/discord.svg').default} alt="Discord icon" />
                         </Nav.Link>
                         <Nav.Link href="https://opensea.io/collection/node_stones">
                             <span>Opensea</span>
-                            <img src={require('../assets/img/logo.svg').default} alt="Opensea icon" />
+                            <img src={require('../assets/img/opensea.svg').default} alt="Opensea icon" />
                         </Nav.Link>
                     </Nav>
                     <Nav>
