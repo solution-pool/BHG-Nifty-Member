@@ -46,7 +46,7 @@
 }
 
 .me-auto img {
-  width: 4.5rem;
+  /* width: 4.5rem; */
   padding-left: 2rem;
 }
 
@@ -200,12 +200,11 @@
   }
 
   .navbar .container .navbar-toggler{
-    bottom: 0.65rem;
     position: relative;
   }
 
   .navbar-collapse {
-    top: 3.5rem;
+    top: 4.3rem;
     position: absolute !important;
     max-width: 200vw;
     height: auto!important;
