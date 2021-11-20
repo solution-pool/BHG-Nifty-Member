@@ -1,10 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
-import axios from 'axios';
-import { SERVER_URL } from '../config/server'
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
+import { database, storage } from '../config/firebase'
 
 const Profile = (props) => {
     const [password, setPassword] = useState('')
@@ -18,47 +17,33 @@ const Profile = (props) => {
     const [file, setFile] = useState(null);
     const [image, setImage] = useState(null);
     const [interest, setInterest] = useState({})
-    const [formData, setForm] = useState({})
     const [fileUploadButtonLabel, setButtonLabel] = useState('Choose File')
 
-    const form  = useRef(null)
     const userRef = useRef(null) 
     const imageRef = useRef(null)
 
     const changePassword = (e) => {
         setPassword(e.target.value)
-        formData.password = e.target.value
-        setForm(formData)
     }
 
     const changeStatus = (e) => {
         setStatus(e.target.value)
-        formData.status = e.target.value
-        setForm(formData)
     }
 
     const changeHeld = (e) => {
         setHeld(e.target.value)
-        formData.held = e.target.value
-        setForm(formData)
     }
 
     const changeEmail = (e) => {
         setEmail(e.target.value)
-        formData.email = e.target.value
-        setForm(formData)
     }
 
     const changeRole = (e) => {
         setRole(e.target.value)
-        formData.role = e.target.value
-        setForm(formData)
     }
 
     const changeBio = (e) => {
         setBio(e.target.value)
-        formData.bio = e.target.value
-        setForm(formData)
     }
 
     const changeInterest = (e) => {
@@ -72,103 +57,182 @@ const Profile = (props) => {
         }
 
         setInterest(interest)
-        formData['interest']  = interest
-        setForm(formData)
     }
 
     const changeFile = (e) => {
         setFile(e.target.files[0])
-        formData.file = file
-        setForm(formData)
         setButtonLabel(e.target.files[0].name)
     }
 
     const changeImage = (e) => {
+        setImage(e.target.files[0])
         const url = URL.createObjectURL(e.target.files[0])
         imageRef.current.src = url
     }
 
     useEffect(() => {
-
-        
       setInputFile(document.getElementById("input-file"));
       setImageFile(document.getElementById("input-image"));
-
       let username = userRef.current.value
       if(username) {
-          let data = new FormData(form.current)
-          data.append('username', username)
-          
-          axios.post(SERVER_URL + '/get', data).then((res) => {
-              if(res.data[0]) {
-                setPassword(res.data[0].password)
-                setStatus(res.data[0].status)
-                setHeld(res.data[0].held)
-                setEmail(res.data[0].email)
-                setRole(res.data[0].role)
-                setBio(res.data[0].bio)
-                setButtonLabel(res.data[0].file);
+            let niftyRef = database.ref('nifty')
+            niftyRef.get().then( (snapshot) => {
+                if(snapshot.exists) {
+                    const newArry = snapshot.val()
+                    if (newArry) {
+                        for(let i in newArry) {
+                            let oneArry = newArry[i]
+                            if(oneArry.username == username) {
 
-                let interests = JSON.parse(res.data[0].interest)
-                setInterest(interests)
-                for(let oneCheck in interests) {
-                    let checkbox = document.getElementById("checkbox_interest_" + oneCheck)
-                    checkbox.checked = interests[oneCheck]
+                                imageRef.current.src = oneArry.image ? oneArry.image : require('../assets/img/avatar.png').default
+                                setPassword(oneArry.password)
+                                setStatus(oneArry.status)
+                                setHeld(oneArry.held)
+                                setEmail(oneArry.email)
+                                setRole(oneArry.role)
+                                setBio(oneArry.bio)
+                                setButtonLabel(oneArry.fileName ? oneArry.fileName : 'Choose file');
+
+                                let interests = JSON.parse(oneArry.interest)
+                                setInterest(interests)
+                                for(let oneCheck in interests) {
+                                    let checkbox = document.getElementById("checkbox_interest_" + oneCheck)
+                                    checkbox.checked = interests[oneCheck]
+                                }
+                                break
+                            }
+                        }
+                    }
                 }
-            } else {
-                reset()
-            }
-          }).catch((err) => {
-          })
+            } )
       }
     }, [props.address]);
   
     const handleUpload = () => {
-      inputFile?.click();
+        inputFile?.click();
     };
 
     const handleImage = () => {
-        console.log('Hello')
         inputImage?.click()
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
+        const jsonOfInteret = JSON.stringify(interest)
+        const username = userRef.current.value
 
-        let postData = new FormData(form.current);
-        
-        let jsonOfInteret = JSON.stringify(interest)
 
-        let username = userRef.current.value
-        postData.append('username', username)
-        postData.append('password', password)
-        postData.append('status', status)
-        postData.append('held', held)
-        postData.append('email', email)
-        postData.append('role', role)
-        postData.append('interest', jsonOfInteret)
-        postData.append('bio', bio)
-
-        if(file) {
-            postData.append('fileName', file.name)
+        const load = {
+            username : username,
+            password : password,
+            status : status,
+            held : held,
+            email : email,
+            role : role,
+            interest : jsonOfInteret,
+            bio : bio,
+            file : file
         }
 
-        for(let p of postData) {
+        for(let p in load) {
             if(p[1] ===  undefined) {
                 window.scrollTo(0, 0)
                 NotificationManager.error('An error occurred while typing data. Please reload the page and try again.', 'Error', 5000)
                 return
             }
         }
-        
-        axios.post(SERVER_URL, postData ).then((res) => {
-            reset()
-            window.scrollTo(0, 0)
-            NotificationManager.success('The data saved successfully.', 'Success', 5000)
-        }).catch((err) => {
-            window.scrollTo(0, 0)
-            NotificationManager.error('The server connection failed. Please make sure if you are connected to the server correctly.', 'Error', 5000)
-        })
+
+        let fileLink = "";
+        let imageLink =  '';
+        if(file){
+            fileLink = await new Promise((resolve, reject) => {
+            const url = "/file/" + file.name;
+            storage.ref(url).put(file).then(function(snapshot) {
+                storage.ref(url).getDownloadURL().then((link) => {
+                    console.log("resolve.......")
+                resolve(link)
+                }).catch((error) => {
+                    console.log("reject.......")
+                reject('')
+                })
+            }).catch((error) => {
+                console.log("catch.......")
+                reject('')
+            })
+            })
+        }
+
+        load.file = fileLink
+        load.fileName = file ? file.name : ''
+
+        if(image) {
+            imageLink = await new Promise((resolve, reject) => {
+                const imageUrl = "/image/" + image.name;
+                storage.ref(imageUrl).put(image).then(function(snapshot) {
+                    storage.ref(imageUrl).getDownloadURL().then((link) => {
+                        console.log("resolve.......")
+                    resolve(link)
+                    }).catch((error) => {
+                        console.log("reject.......")
+                    reject('')
+                    })
+                }).catch((error) => {
+                    console.log("catch.......")
+                    reject('')
+                })
+            })
+        }
+
+        load.image = imageLink
+        load.imageName = image ? image.name : ''
+
+        let updateFlag = false
+        let niftyRef = database.ref('nifty')
+            await niftyRef.get().then( (snapshot) => {
+                if(snapshot.exists) {
+                    const newArry = snapshot.val()
+                    if (newArry) {
+                        for(let i in newArry) {
+                            let oneArry = newArry[i]
+                            if(oneArry.username == username) {
+                                updateFlag = true
+                                if(!file) {
+                                    load.file = oneArry.file ? oneArry.file : ''
+                                    load.fileName = oneArry.fileName ? oneArry.fileName : ''
+                                } 
+                                
+                                if(!image) {
+                                    load.image = oneArry.image ? oneArry.image : ''
+                                    load.fileName = oneArry.fileName ? oneArry.fileName : ''
+                                }
+
+                                let updates = {}
+                                updates['nifty/' + i] = load
+
+                                database.ref().update(updates).then(function(){
+                                    window.scrollTo(0, 0)
+                                    NotificationManager.success('The data saved successfully.', 'Success', 5000)
+                                }).catch(function(error) {
+                                    window.scrollTo(0, 0)
+                                    NotificationManager.error('The server connection failed. Please make sure if you are connected to the server correctly.', 'Error', 5000)
+                                });
+
+                                break
+                            }
+                        }
+                    }
+                }
+            } )
+
+            if(!updateFlag) {
+                const userListRef   = database.ref('nifty')
+                const newUserRef    = userListRef.push()
+                newUserRef.set(load)  
+                window.scrollTo(0, 0)
+                NotificationManager.success('The data saved successfully.', 'Success', 5000)
+            }
+  
+        reset()
     }
 
     const reset = () => {
@@ -181,9 +245,9 @@ const Profile = (props) => {
         setInputFile(document.getElementById("input-file"));
         setFile(null);
         setInterest({})
-        setForm({})
         setButtonLabel('Choose File');
 
+        imageRef.current.src = require('../assets/img/avatar.png').default
         let interests = document.getElementsByClassName('form-check-input')
 
         for(let i = 0; i < interests.length; i ++ ) {
@@ -205,7 +269,7 @@ const Profile = (props) => {
                 </p>
             </Row>
             <Row className="content">
-                <Form onSubmit={handleSubmit} ref={form} encType="multipart/form-data">
+                <Form onSubmit={handleSubmit} encType="multipart/form-data">
                     <Row>
                         <Col lg="4" md="6" sm="12" className="main-col">
                             <Form.Group controlId="formUsername">
