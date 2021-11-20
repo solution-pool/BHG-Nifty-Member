@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Container, Row, Col, Button, Spinner } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
@@ -18,6 +18,7 @@ const Profile = (props) => {
     const [image, setImage] = useState(null);
     const [interest, setInterest] = useState({})
     const [fileUploadButtonLabel, setButtonLabel] = useState('Choose File')
+    const [isLoading, setLoading] = useState(false)
 
     const userRef = useRef(null) 
     const imageRef = useRef(null)
@@ -119,6 +120,7 @@ const Profile = (props) => {
     }
 
     const handleSubmit = async (e) => {
+        setLoading('border')
         e.preventDefault()
         const jsonOfInteret = JSON.stringify(interest)
         const username = userRef.current.value
@@ -139,6 +141,7 @@ const Profile = (props) => {
         for(let p in load) {
             if(p[1] ===  undefined) {
                 window.scrollTo(0, 0)
+                setLoading(false)
                 NotificationManager.error('An error occurred while typing data. Please reload the page and try again.', 'Error', 5000)
                 return
             }
@@ -214,9 +217,11 @@ const Profile = (props) => {
                                 database.ref().update(updates).then(function(){
                                     window.scrollTo(0, 0)
                                     NotificationManager.success('The member profile was successfully submitted.', 'Success', 5000)
+                                    setLoading(false)
                                 }).catch(function(error) {
                                     window.scrollTo(0, 0)
                                     NotificationManager.error('The member profile submission failed.', 'Error', 5000)
+                                    setLoading(false)
                                 });
 
                                 break
@@ -232,6 +237,7 @@ const Profile = (props) => {
                 newUserRef.set(load)  
                 window.scrollTo(0, 0)
                 NotificationManager.success('The member profile was successfully submitted.', 'Success', 5000)
+                setLoading(false)
             }
   
         reset()
@@ -412,7 +418,15 @@ const Profile = (props) => {
                             <Form.Group className="mb-4">
                                 <Form.Label style={{visibility:'hidden'}}>Bio</Form.Label>
                                 <div className="footer-element submit-panel">
-                                    <Button variant="secondary" type="submit">Submit</Button>
+                                    <Button variant="secondary" type="submit">
+                                        <Spinner
+                                        as="span"
+                                        animation={isLoading}
+                                        size="sm"
+                                        role="status"
+                                        aria-hidden="false"
+                                        />
+                                        &nbsp; Submit</Button>
                                 </div>
                             </Form.Group>
                         </Col>
