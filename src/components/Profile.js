@@ -213,10 +213,10 @@ const Profile = (props) => {
 
                                 database.ref().update(updates).then(function(){
                                     window.scrollTo(0, 0)
-                                    NotificationManager.success('The data saved successfully.', 'Success', 5000)
+                                    NotificationManager.success('The member profile was successfully submitted.', 'Success', 5000)
                                 }).catch(function(error) {
                                     window.scrollTo(0, 0)
-                                    NotificationManager.error('The server connection failed. Please make sure if you are connected to the server correctly.', 'Error', 5000)
+                                    NotificationManager.error('The member profile submission failed.', 'Error', 5000)
                                 });
 
                                 break
@@ -231,7 +231,7 @@ const Profile = (props) => {
                 const newUserRef    = userListRef.push()
                 newUserRef.set(load)  
                 window.scrollTo(0, 0)
-                NotificationManager.success('The data saved successfully.', 'Success', 5000)
+                NotificationManager.success('The member profile was successfully submitted.', 'Success', 5000)
             }
   
         reset()
