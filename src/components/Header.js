@@ -15,11 +15,11 @@ const Header = (props) => {
                             <span>Twitter</span>
                             <img src={require('../assets/img/twitter.svg').default} alt="Twitter icon" />
                         </Nav.Link>
-                        <Nav.Link href="https://discord.com/nifty">
+                        <Nav.Link href="https://discord.com/invite/nifty">
                             <span>Discord</span>
                             <img src={require('../assets/img/discord.svg').default} alt="Discord icon" />
                         </Nav.Link>
-                        <Nav.Link href="https://opensea.io/collection/node_stones">
+                        <Nav.Link href="https://opensea.io/collection/nodestones">
                             <span>Opensea</span>
                             <img src={require('../assets/img/opensea.svg').default} alt="Opensea icon" />
                         </Nav.Link>
