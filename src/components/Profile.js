@@ -15,14 +15,16 @@ const Profile = (props) => {
     const [inputFile, setInputFile] = useState(null);
     const [inputImage, setImageFile] = useState(null);
     const [files, setFiles] = useState([]);
+    const [prevFiles, setPrevFiles] = useState([])
+    const [prevFileContainer, setPrevFileContainer] = useState([])
     const [selFileContainer, setFileContainer] = useState(null)
     const [image, setImage] = useState(null);
     const [interest, setInterest] = useState({})
-    const [fileUploadButtonLabel, setButtonLabel] = useState('Choose File')
     const [isLoading, setLoading] = useState(false)
     const [show, setShow] = useState(false)
     const [target, setTarget] = useState(null)
     const [decliamer, setDecliamer] = useState(false)
+    const [id, setID] = useState(0)
 
     const userRef = useRef(null) 
     const imageRef = useRef(null)
@@ -84,6 +86,7 @@ const Profile = (props) => {
     useEffect(() => {
       setInputFile(document.getElementById("input-file"));
       setImageFile(document.getElementById("input-image"));
+      fillPrevFileContainer()
       fillFileContainer()
       let username = userRef.current.value
       if(username) {
@@ -95,6 +98,7 @@ const Profile = (props) => {
                         for(let i in newArry) {
                             let oneArry = newArry[i]
                             if(oneArry.username == username) {
+                                setID(i)
 
                                 imageRef.current.src = oneArry.image ? oneArry.image : require('../assets/img/avatar.png').default
                                 setPassword(oneArry.password)
@@ -103,19 +107,28 @@ const Profile = (props) => {
                                 setEmail(oneArry.email)
                                 setRole(oneArry.role)
                                 setBio(oneArry.bio)
-                                // if(oneArry.fileNames) {
-                                //     let container = [];
-                                //     for(let i = 0; i < oneArry.fileNames.length; i ++ ) {
-                                //         const oneFileName = oneArry.fileNames[i]
-                                //         const element = <Col lg="4" md="4" sm="6" xs="12"> 
-                                //                             <Button title={oneFileName} variant="secondary">
-                                //                                  {oneFileName} 
-                                //                             </Button>
-                                //                         </Col> 
-                                //         container.push(element)
-                                //     }
-                                //     setFileContainer(container)
-                                // }
+                                if(oneArry.fileNames) {
+                                    let container = [];
+                                    let prevFile = []
+                                    for(let i in oneArry.fileNames) {
+                                        const oneFileName = oneArry.fileNames[i]
+                                        const element = 
+                                                <Col lg="4" md="4" sm="6" xs="12" className="one-file"> 
+                                                    <Button title={oneFileName} variant="secondary">
+                                                        <div className="cross-content"> {oneFileName}</div>
+                                                        <div className="cross">
+                                                            <span onClick={deletePrevFile} title={oneFileName} className="close-button">
+                                                                &#10005;
+                                                            </span>
+                                                        </div> 
+                                                    </Button>
+                                                </Col> 
+                                        container.push(element)
+                                        prevFile[i] = {name : oneFileName}
+                                    }
+                                    setPrevFileContainer(container)
+                                    setPrevFiles(prevFile)
+                                }
 
                                 let interests = JSON.parse(oneArry.interest)
                                 setInterest(interests)
@@ -132,18 +145,28 @@ const Profile = (props) => {
                 }
             } )
       }
-    }, [props.address]);
+    }, [props.address, files.length, prevFiles.length]);
   
     const fillFileContainer = () => {
         let container = [];
-        console.log(files)
         for(let i = 0; i < files.length; i ++ ) {
             const oneFile = files[i]
-            const element = <Col lg="4" md="4" sm="6" xs="12"> <Button title={oneFile.name} variant="secondary"> {oneFile.name}<div><span onClick={deleteFile} title={oneFile.name} className="close-button">&#10005;</span></div> </Button></Col> 
+            const element = <Col lg="4" md="4" sm="6" xs="12" className="one-file"> <Button title={oneFile.name} variant="secondary"><div className="cross-content"> {oneFile.name}</div><div className="cross"><span onClick={deleteFile} title={oneFile.name} className="close-button">&#10005;</span></div> </Button></Col> 
             container.push(element)
         }
 
         setFileContainer(container)
+    }
+
+    const fillPrevFileContainer = () => {
+        let container = [];
+        for(let i in prevFiles) {
+            const oneFile = prevFiles[i]
+            const element = <Col lg="4" md="4" sm="6" xs="12" className="one-file"> <Button title={oneFile.name} variant="secondary"> {oneFile.name}<div><span onClick={deletePrevFile} title={oneFile.name} className="close-button">&#10005;</span></div> </Button></Col> 
+            container.push(element)
+        }
+
+        setPrevFileContainer(container)
     }
     
     const deleteFile = async (e) => {
@@ -169,6 +192,38 @@ const Profile = (props) => {
         setFiles(fileContainer)
         document.getElementById('input-file').files =  null
     }
+
+    const deletePrevFile = async (e) => {
+        const fileName = e.target.title
+
+        let removeID = -1
+        let fileContainer = []
+
+        for(let i in prevFiles) {
+            const oneFile = prevFiles[i]
+            if(fileName.trim() == oneFile.name.trim()) {
+                removeID = i
+                break;
+            }
+        }
+
+        if(removeID > -1) {
+            const fileNameRef = database.ref('member_profile/' + id + '/fileNames/' + removeID)
+            fileNameRef.remove()
+            const filesRef = database.ref('member_profile/' + id + '/files/' + removeID)
+            filesRef.remove()
+            storage.ref('member_profile/file/' + fileName).delete()
+        }
+        
+        
+        for(let i in prevFiles) {
+            if(i == removeID) {
+                continue;
+            }
+            fileContainer[i] = prevFiles[i]
+        }
+        setPrevFiles(fileContainer)
+    } 
 
     const setFile = () => {
         inputFile?.click();
@@ -212,7 +267,7 @@ const Profile = (props) => {
             for(let i = 0; i < files.length; i ++ ) {
                 let file = files[i]
                 let fileLink = await new Promise((resolve, reject) => {
-                    const url = "/project_proposal/file/" + file.name;
+                    const url = "/member_profile/file/" + file.name;
                     storage.ref(url).put(file).then(function(snapshot) {
                         storage.ref(url).getDownloadURL().then((link) => {
                             console.log("resolve.......")
@@ -317,7 +372,6 @@ const Profile = (props) => {
         setBio('')
         setInputFile(document.getElementById("input-file"));
         setInterest({})
-        setButtonLabel('Choose File');
 
         imageRef.current.src = require('../assets/img/avatar.png').default
         let interests = document.getElementsByClassName('form-check-input')
@@ -479,7 +533,7 @@ const Profile = (props) => {
                         </Col>
                         <Col lg="8" className="main-col decliamer-panel">
                             <Form.Group className="mb-4">
-                                <Form.Label>Bio</Form.Label>
+                                <Form.Label>Files</Form.Label>
                                 <span id="up-decliamer">
                                     <label title="" class="form-check-label">
                                         &nbsp;I have read the <span class="disclaimer" onClick={handleClick}>disclaimer</span> and I agree to the terms.
@@ -493,6 +547,7 @@ const Profile = (props) => {
                                         Add File
                                     </Button>
                                     <Row className="selected-files">
+                                        {prevFileContainer}
                                         {selFileContainer}
                                     </Row>
                                 </div>
