@@ -14,7 +14,8 @@ const Profile = (props) => {
     const [bio, setBio] = useState('')
     const [inputFile, setInputFile] = useState(null);
     const [inputImage, setImageFile] = useState(null);
-    const [file, setFile] = useState(null);
+    const [files, setFiles] = useState([]);
+    const [selFileContainer, setFileContainer] = useState(null)
     const [image, setImage] = useState(null);
     const [interest, setInterest] = useState({})
     const [fileUploadButtonLabel, setButtonLabel] = useState('Choose File')
@@ -61,8 +62,14 @@ const Profile = (props) => {
     }
 
     const changeFile = (e) => {
-        setFile(e.target.files[0])
-        setButtonLabel(e.target.files[0].name)
+        const newFile = e.target.files[0]
+        let fileContainer = []
+        for(let i = 0 ; i < files.length; i ++ ) {
+            fileContainer.push(new File([files[i]], files[i].name))
+        }
+        const selectedFile = new File([newFile], newFile.name)
+        fileContainer.push(selectedFile)
+        setFiles(fileContainer)
     }
 
     const changeImage = (e) => {
@@ -74,6 +81,7 @@ const Profile = (props) => {
     useEffect(() => {
       setInputFile(document.getElementById("input-file"));
       setImageFile(document.getElementById("input-image"));
+      fillFileContainer()
       let username = userRef.current.value
       if(username) {
             let niftyRef = database.ref('member_profile')
@@ -109,9 +117,46 @@ const Profile = (props) => {
                 }
             } )
       }
-    }, [props.address]);
+    }, [props.address, files]);
   
-    const handleUpload = () => {
+    const fillFileContainer = () => {
+        let container = [];
+        console.log(files)
+        for(let i = 0; i < files.length; i ++ ) {
+            const oneFile = files[i]
+            const element = <Col lg="4" md="4" sm="6" xs="12"> <Button title={oneFile.name} variant="secondary"> {oneFile.name}<div><span onClick={deleteFile} title={oneFile.name} className="close-button">&#10005;</span></div> </Button></Col> 
+            container.push(element)
+        }
+
+        setFileContainer(container)
+    }
+    
+    const deleteFile = async (e) => {
+        const fileName = e.target.title
+
+        console.log(fileName)
+        let removeID = -1
+        let fileContainer = []
+
+        for(let i = 0 ; i < files.length; i ++ ) {
+            const oneFile = files[i]
+            if(fileName.trim() == oneFile.name.trim()) {
+                removeID = i
+                break;
+            }
+        }
+        
+        for(let i = 0; i < files.length; i ++ ) {
+            if(i == removeID) {
+                continue;
+            }
+            fileContainer.push(new File([files[i]], files[i].name))
+        }
+        setFiles(fileContainer)
+        document.getElementById('input-file').files =  null
+    }
+
+    const setFile = () => {
         inputFile?.click();
     };
 
@@ -135,7 +180,6 @@ const Profile = (props) => {
             role : role,
             interest : jsonOfInteret,
             bio : bio,
-            file : file
         }
 
         for(let p in load) {
@@ -147,28 +191,35 @@ const Profile = (props) => {
             }
         }
 
-        let fileLink = "";
         let imageLink =  '';
-        if(file){
-            fileLink = await new Promise((resolve, reject) => {
-            const url = "/member_profile/file/" + file.name;
-            storage.ref(url).put(file).then(function(snapshot) {
-                storage.ref(url).getDownloadURL().then((link) => {
-                    console.log("resolve.......")
-                resolve(link)
-                }).catch((error) => {
-                    console.log("reject.......")
-                reject('')
+        let fileUrl = []
+        let fileName = []
+        if(files){
+            for(let i = 0; i < files.length; i ++ ) {
+                let file = files[i]
+                let fileLink = await new Promise((resolve, reject) => {
+                    const url = "/project_proposal/file/" + file.name;
+                    storage.ref(url).put(file).then(function(snapshot) {
+                        storage.ref(url).getDownloadURL().then((link) => {
+                            console.log("resolve.......")
+                        resolve(link)
+                        }).catch((error) => {
+                            console.log("reject.......")
+                        reject('')
+                        })
+                    }).catch((error) => {
+                        console.log("catch.......")
+                        reject('')
+                    })
                 })
-            }).catch((error) => {
-                console.log("catch.......")
-                reject('')
-            })
-            })
+
+                fileUrl.push(fileLink)
+                fileName.push(file.name)
+            }   
         }
 
-        load.file = fileLink
-        load.fileName = file ? file.name : ''
+        load.files = fileUrl
+        load.fileNames = fileName
 
         if(image) {
             imageLink = await new Promise((resolve, reject) => {
@@ -201,9 +252,9 @@ const Profile = (props) => {
                             let oneArry = newArry[i]
                             if(oneArry.username == username) {
                                 updateFlag = true
-                                if(!file) {
-                                    load.file = oneArry.file ? oneArry.file : ''
-                                    load.fileName = oneArry.fileName ? oneArry.fileName : ''
+                                if(!files) {
+                                    load.files = oneArry.files ? oneArry.files : ''
+                                    load.fileNames = oneArry.fileNames ? oneArry.fileNames : ''
                                 } 
 
                                 if(!image) {
@@ -251,7 +302,6 @@ const Profile = (props) => {
         setRole('')
         setBio('')
         setInputFile(document.getElementById("input-file"));
-        setFile(null);
         setInterest({})
         setButtonLabel('Choose File');
 
@@ -409,8 +459,14 @@ const Profile = (props) => {
                             <Form.Group className="mb-4">
                                 <Form.Label style={{visibility:'hidden'}}>Bio</Form.Label>
                                 <div className="footer-element file-panel">
-                                    <input id="input-file" type="file" name="file" className="d-none" onChange={changeFile} />
-                                    <Button variant="light" id="file-upload-button" onClick={handleUpload}>{fileUploadButtonLabel}</Button>
+                                    <input id="input-file" type="file" name="file" className="d-none" onChange={changeFile} multiple />
+                                    <Button variant="light" id="file-upload-button" onClick={setFile}>
+                                            <div id="plus"><span>+</span></div>    
+                                        Add File
+                                    </Button>
+                                    <Row className="selected-files">
+                                        {selFileContainer}
+                                    </Row>
                                 </div>
                             </Form.Group>
                         </Col>

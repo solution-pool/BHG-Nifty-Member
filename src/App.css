@@ -144,8 +144,54 @@
 }
 
 .content .file-panel button {
-  top : 45%;
   position: relative;
+}
+
+.content .file-panel {
+  text-align: center;
+  margin: auto;
+  background-color: white;
+  overflow: auto;
+}
+
+.content .file-panel button {
+  top: 10%;
+  position: relative;
+}
+
+.content .file-panel .selected-files {
+  width: 100%;
+  margin: 0px;
+  position: relative;
+}
+
+.content .file-panel .selected-files button {
+  position: relative;
+  margin-top: 1vw;
+  background-color: #f2f2f2;
+  border-color: #f2f2f2;
+  color: black ;
+  padding: 0.375rem 0.75rem;
+}
+
+.content .file-panel .selected-files button div {
+  border: 1px solid #ced4da;
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  top: -0.5rem;
+  right: -0.5rem;
+  border-radius: 50%;
+  color: #ced4da;
+  background-color: white;
+
+}
+
+.content .file-panel .selected-files button div .close-button {
+  position: absolute;
+  font-size: 0.6rem;
+  top: -0.01rem;
+  left: 0.22rem;
 }
 
 .content .submit-panel {
@@ -174,11 +220,34 @@
   margin-top: 30px;
 }
 
+
 #file-upload-button {
+  position: relative;
   word-break: break-all;
   margin: 10px;
+  z-index: 100;
+  background-color: #f2f2f2;
+
+}  
+#plus {
+    background-color: white;
+    color: #ced4da;
+    z-index: 101;
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid #ced4da;
+    top : -0.5rem;
+    right: -0.5rem;
+    width: 1rem;
+    height: 1rem;
 }
 
+#plus span {
+    position: absolute;
+    top: -0.44rem;
+    left: 0.13rem;
+
+}
 #file-upload-button:hover {
   border: 1px solid #8b8b8b;
 }
