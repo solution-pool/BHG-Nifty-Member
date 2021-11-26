@@ -395,3 +395,6 @@
     left: calc(50% - 3rem);
   }
 }
+#popover-contained {
+  max-width: 50vw !important;
+}
