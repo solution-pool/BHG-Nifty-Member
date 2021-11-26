@@ -206,6 +206,14 @@
   right: 0;
 }
 
+.submit-button-panel {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin: 0 !important;
+  text-align: right;
+  height: 7rem;
+}
+
 .form-label {
   font-weight: 500;
   font-size: 1rem;
@@ -321,13 +329,20 @@
   }
 }
 
-@media only screen and (min-width: 992px) and (max-width: 768px) {
+@media only screen and (min-width: 992px) {
   .navbar-collapse .me-auto .nav-link span {
     display: none !important;
   }
   .navbar-collapse .me-auto .nav-link i, .navbar-collapse .me-auto .nav-link img {
     display: block !important;
   }
+  .submit-button-panel {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+@media only screen and (max-width: 991px) and (min-width: 768px) {
   
   #up-decliamer {
     display: inline;
