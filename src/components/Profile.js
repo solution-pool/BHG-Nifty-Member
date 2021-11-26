@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Container, Row, Col, Button, Spinner } from 'react-bootstrap';
+import { Container, Row, Col, Button, Spinner, Overlay, Popover } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
@@ -20,6 +20,9 @@ const Profile = (props) => {
     const [interest, setInterest] = useState({})
     const [fileUploadButtonLabel, setButtonLabel] = useState('Choose File')
     const [isLoading, setLoading] = useState(false)
+    const [show, setShow] = useState(false)
+    const [target, setTarget] = useState(null)
+    const [decliamer, setDecliamer] = useState(false)
 
     const userRef = useRef(null) 
     const imageRef = useRef(null)
@@ -313,6 +316,14 @@ const Profile = (props) => {
         }
     }
 
+    const handleClick = (e) => {
+        setShow(!show);
+        setTarget(e.target);
+    }
+    
+    const changeDecliamer = (e) => {
+        setDecliamer(e.target.checked)
+    }
     return(
         <Container>
             <NotificationContainer />
@@ -455,9 +466,15 @@ const Profile = (props) => {
                                 <Form.Control className="footer-element" as="textarea" rows={3} placeholder="Bio" value={bio} onChange={changeBio} />
                             </Form.Group>
                         </Col>
-                        <Col lg="4" className="main-col">
+                        <Col lg="7" className="main-col decliamer-panel">
                             <Form.Group className="mb-4">
-                                <Form.Label style={{visibility:'hidden'}}>Bio</Form.Label>
+                                <Form.Label>Bio</Form.Label>
+                                <span id="up-decliamer">
+                                    <label title="" class="form-check-label">
+                                        &nbsp;I have read the <span class="disclaimer" onClick={handleClick}>disclaimer</span> and I agree to the terms.
+                                    </label>
+                                    <input type="checkbox" class="form-check-input" value={decliamer} onChange={changeDecliamer} />
+                                </span>
                                 <div className="footer-element file-panel">
                                     <input id="input-file" type="file" name="file" className="d-none" onChange={changeFile} multiple />
                                     <Button variant="light" id="file-upload-button" onClick={setFile}>
@@ -468,13 +485,19 @@ const Profile = (props) => {
                                         {selFileContainer}
                                     </Row>
                                 </div>
+                                <span id="down-decliamer">
+                                    <input type="checkbox" class="form-check-input" value={decliamer} onChange={changeDecliamer} />
+                                    <label title="" class="form-check-label">
+                                        &nbsp;I have read the <span class="disclaimer" onClick={handleClick}>disclaimer</span> and I agree to the terms.
+                                    </label>
+                                </span>
                             </Form.Group>
                         </Col>
-                        <Col lg="4" className="main-col">
+                        <Col lg="1" className="main-col">
                             <Form.Group className="mb-4">
                                 <Form.Label style={{visibility:'hidden'}}>Bio</Form.Label>
                                 <div className="footer-element submit-panel">
-                                    <Button variant="secondary" type="submit">
+                                    <Button variant="secondary" type="submit"  disabled={!decliamer}>
                                         <Spinner
                                         as="span"
                                         animation={isLoading}
@@ -489,6 +512,34 @@ const Profile = (props) => {
                     </Row>
                 </Form>
             </Row>
+            <Overlay
+                show={show}
+                target={target}
+                placement="top"
+                // container={ref}
+                containerPadding={20}
+            >
+                <Popover id="popover-contained">
+                <Popover.Body>
+                    <p>IMPORTANT NOTICE*</p>
+                    <p>MAKING A SUBMISSION, YOU ARE ACCEPTING AND AGREEING TO THE Nify, LLC TERMS OF USE. 
+                        You understand that your submission is not confidential nor submitted in confidence or 
+                        trust and do confidential or fiduciary relationship is intended or created by making an email
+                        submission. You understand that Nifty may possess or come to possess information similar or
+                        identical to information contained in your submission, and you agree that any such similarity or 
+                        identity shall not give rise to any claim or entitlement,
+                        whether for compensation, credit or otherwise.
+                        By making a submission, you hereby release Nifty and their respective directors, officers, shareholders, employees, licensees, assigns and successors from any and all claims
+                        relating to your submission, including without limitation arising from the risk of misdirection or misdelivery of 
+                        your submission.
+                        By checking box below and submitting this form, you acknowledge that Nifty will receive tha personal
+                        information you provide in connection with this application and will use it to consider your submission as a potential project for development.
+                        You also understand and agree that Nifty has the sole discretion to make determinations of participant eligibility, and that 
+                        Nifty reserves the right to change any of the eligibility requirements at any time.
+                    </p>
+                </Popover.Body>
+                </Popover>
+            </Overlay>
         </Container>
     );
 }
