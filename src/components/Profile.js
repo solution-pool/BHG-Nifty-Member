@@ -132,7 +132,7 @@ const Profile = (props) => {
                 }
             } )
       }
-    }, [props.address, files.length]);
+    }, [props.address]);
   
     const fillFileContainer = () => {
         let container = [];
