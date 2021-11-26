@@ -103,7 +103,19 @@ const Profile = (props) => {
                                 setEmail(oneArry.email)
                                 setRole(oneArry.role)
                                 setBio(oneArry.bio)
-                                setButtonLabel(oneArry.fileName ? oneArry.fileName : 'Choose file');
+                                // if(oneArry.fileNames) {
+                                //     let container = [];
+                                //     for(let i = 0; i < oneArry.fileNames.length; i ++ ) {
+                                //         const oneFileName = oneArry.fileNames[i]
+                                //         const element = <Col lg="4" md="4" sm="6" xs="12"> 
+                                //                             <Button title={oneFileName} variant="secondary">
+                                //                                  {oneFileName} 
+                                //                             </Button>
+                                //                         </Col> 
+                                //         container.push(element)
+                                //     }
+                                //     setFileContainer(container)
+                                // }
 
                                 let interests = JSON.parse(oneArry.interest)
                                 setInterest(interests)
@@ -120,7 +132,7 @@ const Profile = (props) => {
                 }
             } )
       }
-    }, [props.address, files]);
+    }, [props.address, files.length]);
   
     const fillFileContainer = () => {
         let container = [];
@@ -137,7 +149,6 @@ const Profile = (props) => {
     const deleteFile = async (e) => {
         const fileName = e.target.title
 
-        console.log(fileName)
         let removeID = -1
         let fileContainer = []
 
@@ -466,7 +477,7 @@ const Profile = (props) => {
                                 <Form.Control className="footer-element" as="textarea" rows={3} placeholder="Bio" value={bio} onChange={changeBio} />
                             </Form.Group>
                         </Col>
-                        <Col lg="7" className="main-col decliamer-panel">
+                        <Col lg="8" className="main-col decliamer-panel">
                             <Form.Group className="mb-4">
                                 <Form.Label>Bio</Form.Label>
                                 <span id="up-decliamer">
@@ -493,10 +504,10 @@ const Profile = (props) => {
                                 </span>
                             </Form.Group>
                         </Col>
-                        <Col lg="1" className="main-col">
+                        <Col lg="12" className="main-col submit-button-panel">
                             <Form.Group className="mb-4">
                                 <Form.Label style={{visibility:'hidden'}}>Bio</Form.Label>
-                                <div className="footer-element submit-panel">
+                                <div className="footer-element">
                                     <Button variant="secondary" type="submit"  disabled={!decliamer}>
                                         <Spinner
                                         as="span"
