@@ -561,7 +561,7 @@ const Profile = (props) => {
                                         role="status"
                                         aria-hidden="false"
                                         />
-                                        &nbsp; Submit</Button>
+                                        &nbsp; Save Changes</Button>
                                 </div>
                             </Form.Group>
                         </Col>
