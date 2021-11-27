@@ -117,6 +117,10 @@
 .content .main-col {
   padding : 2.5rem 2.5rem 0 2.5rem;
 }
+/* 
+.content .sub-main-col {
+  padding-right: 2.5rem;
+} */
 
 .content .checkbox-panel {
   padding: 2rem;

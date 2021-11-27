@@ -6,11 +6,10 @@ import 'react-notifications/lib/notifications.css';
 import { database, storage } from '../config/firebase'
 
 const Profile = (props) => {
-    const [password, setPassword] = useState('')
-    const [status, setStatus] = useState('')
+    const [username, SetUsername] = useState('')
     const [held, setHeld] = useState('')
     const [email, setEmail] = useState('')
-    const [role, setRole] = useState('')
+    const [twitter, setTwitter] = useState('')
     const [bio, setBio] = useState('')
     const [inputFile, setInputFile] = useState(null);
     const [inputImage, setImageFile] = useState(null);
@@ -26,27 +25,19 @@ const Profile = (props) => {
     const [decliamer, setDecliamer] = useState(false)
     const [id, setID] = useState(0)
 
-    const userRef = useRef(null) 
     const imageRef = useRef(null)
+    const walletRef = useRef(null)
 
-    const changePassword = (e) => {
-        setPassword(e.target.value)
+    const changeUsername = (e) => {
+        SetUsername(e.target.value)
     }
-
-    const changeStatus = (e) => {
-        setStatus(e.target.value)
-    }
-
-    const changeHeld = (e) => {
-        setHeld(e.target.value)
+    
+    const changeTwitter = (e) => {
+        setTwitter(e.target.value)
     }
 
     const changeEmail = (e) => {
         setEmail(e.target.value)
-    }
-
-    const changeRole = (e) => {
-        setRole(e.target.value)
     }
 
     const changeBio = (e) => {
@@ -88,7 +79,7 @@ const Profile = (props) => {
       setImageFile(document.getElementById("input-image"));
       fillPrevFileContainer()
       fillFileContainer()
-      let username = userRef.current.value
+      let wallet = walletRef.current.value
       if(username) {
             let niftyRef = database.ref('member_profile')
             niftyRef.get().then( (snapshot) => {
@@ -97,15 +88,12 @@ const Profile = (props) => {
                     if (newArry) {
                         for(let i in newArry) {
                             let oneArry = newArry[i]
-                            if(oneArry.username == username) {
+                            if(oneArry.wallet == wallet) {
                                 setID(i)
 
                                 imageRef.current.src = oneArry.image ? oneArry.image : require('../assets/img/avatar.png').default
-                                setPassword(oneArry.password)
-                                setStatus(oneArry.status)
                                 setHeld(oneArry.held)
                                 setEmail(oneArry.email)
-                                setRole(oneArry.role)
                                 setBio(oneArry.bio)
                                 if(oneArry.fileNames) {
                                     let container = [];
@@ -237,16 +225,13 @@ const Profile = (props) => {
         setLoading('border')
         e.preventDefault()
         const jsonOfInteret = JSON.stringify(interest)
-        const username = userRef.current.value
-
-
+        const wallet = walletRef.current.value
         const load = {
             username : username,
-            password : password,
-            status : status,
+            wallet : wallet,
             held : held,
             email : email,
-            role : role,
+            twitter : twitter,
             interest : jsonOfInteret,
             bio : bio,
         }
@@ -319,7 +304,7 @@ const Profile = (props) => {
                     if (newArry) {
                         for(let i in newArry) {
                             let oneArry = newArry[i]
-                            if(oneArry.username == username) {
+                            if(oneArry.wallet == wallet) {
                                 updateFlag = true
                                 if(!files) {
                                     load.files = oneArry.files ? oneArry.files : ''
@@ -364,11 +349,10 @@ const Profile = (props) => {
     }
 
     const reset = () => {
-        setPassword('')
-        setStatus('')
+        SetUsername('')
         setHeld('')
         setEmail('')
-        setRole('')
+        setTwitter('')
         setBio('')
         setInputFile(document.getElementById("input-file"));
         setInterest({})
@@ -405,41 +389,43 @@ const Profile = (props) => {
             <Row className="content">
                 <Form onSubmit={handleSubmit} encType="multipart/form-data">
                     <Row>
-                        <Col lg="4" md="6" sm="12" className="main-col">
-                            <Form.Group controlId="formUsername">
-                                <Form.Label>Create Username</Form.Label>
-                                <Form.Control type="text" ref={userRef} placeholder="Use Wallet Address(default)" defaultValue={props.address ? props.address : ''} required />
-                            </Form.Group>
+                        <Col lg="8" md="12" sm="12">
+                            <Row>
+                                <Col lg="6" md="12" sm="12" className="main-col">
+                                    <Form.Group controlId="formWallet">
+                                        <Form.Label>Wallet Address</Form.Label>
+                                        <Form.Control type="text" ref={walletRef} placeholder="Wallet Address" defaultValue={props.address ? props.address : ''} required />
+                                </Form.Group>
+                                </Col>
+                                <Col lg="6" md="6" sm="12" className="main-col">
+                                    <Form.Group controlId="formUsername">
+                                        <Form.Label>Username</Form.Label>
+                                        <Form.Control type="text" placeholder="Create a Username" value={username} onChange={changeUsername} required />
+                                    </Form.Group>
+                                </Col>
+                                <Col lg="6" md="12" sm="12" className="main-col">
+                                    <Form.Group className="mb-4" controlId="formEmail">
+                                        <Form.Label>Email</Form.Label>
+                                        <Form.Control type="text" placeholder="Email" value={email} onChange={changeEmail} required />
+                                    </Form.Group>
+                                </Col>
+                                <Col lg="6" md="12" sm="12" className="main-col">
+                                    <Form.Group className="mb-4" controlId="formTwitter">
+                                        <Form.Label>Twitter</Form.Label>
+                                        <Form.Control type="twitter" placeholder="Twitter URL" value={twitter} onChange={changeTwitter} required />
+                                    </Form.Group>
+                                </Col>
+                            </Row>
                         </Col>
                         <Col lg="4" md="6" sm="12" className="main-col">
-                            <Form.Group controlId="formPassword">
-                                <Form.Label>Create Password</Form.Label>
-                                <Form.Control type="password" placeholder="Create Password" value={password} onChange={changePassword} required />
-                            </Form.Group>
-                        </Col>
-                        <Col lg="4" md="6" sm="12" className="main-col">
-                            <Form.Group controlId="formStatus">
-                                <Form.Label>Profile Status</Form.Label>
-                                <Form.Control type="text" placeholder="" value={status} onChange={changeStatus} required />
-                            </Form.Group>
-                        </Col>
-                        <Col lg="4" md="6" sm="12" className="main-col">
-                            <Form.Group className="mb-4" controlId="formEmail">
-                                <Form.Label>Email</Form.Label>
-                                <Form.Control type="email" placeholder="Email" value={email} onChange={changeEmail} required />
-                            </Form.Group>
-                        </Col>
-                        <Col lg="4" md="6" sm="12" className="main-col">
-                            <Form.Group controlId="formRole">
-                                <Form.Label>Role</Form.Label>
-                                <Form.Control type="text" placeholder="Role" value={role} onChange={changeRole} required />
-                            </Form.Group>
-                        </Col>
-                        <Col lg="4" md="6" sm="12" className="main-col">
-                            <Form.Group controlId="formHeld">
-                                <Form.Label>Nodestone(s) Held</Form.Label>
-                                <Form.Control type="text" placeholder="Nodestone(s) Held" value={held} onChange={changeHeld} required/>
-                            </Form.Group>
+                            <Row>
+                                <Col lg="12" md="12" sm="12" className="sub-main-col">
+                                    <Form.Group controlId="formHeld">
+                                        <Form.Label>Nodestone(s) Held</Form.Label>
+                                        <Form.Control as="textarea" rows="5" disabled={true} placeholder="Nodestone(s) Held" defaultValue={held} required/>
+                                    </Form.Group>
+                                </Col>
+                            </Row>
                         </Col>
                         <Col lg="12" md="12" className="main-col">
                             <Form.Group controlId="formHeld">
