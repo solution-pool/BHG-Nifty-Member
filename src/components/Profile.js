@@ -6,7 +6,7 @@ import 'react-notifications/lib/notifications.css';
 import { database, storage } from '../config/firebase'
 
 const Profile = (props) => {
-    const [username, SetUsername] = useState('')
+    const [username, setUsername] = useState('')
     const [held, setHeld] = useState('')
     const [email, setEmail] = useState('')
     const [twitter, setTwitter] = useState('')
@@ -29,7 +29,7 @@ const Profile = (props) => {
     const walletRef = useRef(null)
 
     const changeUsername = (e) => {
-        SetUsername(e.target.value)
+        setUsername(e.target.value)
     }
     
     const changeTwitter = (e) => {
@@ -349,11 +349,15 @@ const Profile = (props) => {
     }
 
     const reset = () => {
-        SetUsername('')
+        setUsername('')
         setHeld('')
         setEmail('')
         setTwitter('')
         setBio('')
+        setFiles([])
+        setFileContainer(null)
+        setPrevFileContainer([])
+        setPrevFiles([])
         setInputFile(document.getElementById("input-file"));
         setInterest({})
 
@@ -422,7 +426,7 @@ const Profile = (props) => {
                                 <Col lg="12" md="12" sm="12" className="sub-main-col">
                                     <Form.Group controlId="formHeld">
                                         <Form.Label>Nodestone(s) Held</Form.Label>
-                                        <Form.Control as="textarea" rows="5" disabled={true} placeholder="Nodestone(s) Held" defaultValue={held} required/>
+                                        <Form.Control as="textarea" rows="5" disabled={true} placeholder="Nodestone(s) Held" defaultValue={held} />
                                     </Form.Group>
                                 </Col>
                             </Row>
