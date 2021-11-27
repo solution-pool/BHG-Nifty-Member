@@ -97,7 +97,7 @@ const Profile = (props) => {
                                 setBio(oneArry.bio)
                                 setTwitter(oneArry.twitter)
                                 setUsername(oneArry.username)
-                                
+
                                 if(oneArry.fileNames) {
                                     let container = [];
                                     let prevFile = []
@@ -229,7 +229,7 @@ const Profile = (props) => {
         e.preventDefault()
         const jsonOfInteret = JSON.stringify(interest)
         const wallet = walletRef.current.value
-        const load = {
+        let load = {
             username : username,
             wallet : wallet,
             held : held,
@@ -251,7 +251,7 @@ const Profile = (props) => {
         let imageLink =  '';
         let fileUrl = []
         let fileName = []
-        if(files){
+        if(files.length){
             for(let i = 0; i < files.length; i ++ ) {
                 let file = files[i]
                 let fileLink = await new Promise((resolve, reject) => {
@@ -308,15 +308,19 @@ const Profile = (props) => {
                         for(let i in newArry) {
                             let oneArry = newArry[i]
                             if(oneArry.wallet == wallet) {
+                                
                                 updateFlag = true
-                                if(!files) {
-                                    load.files = oneArry.files ? oneArry.files : ''
-                                    load.fileNames = oneArry.fileNames ? oneArry.fileNames : ''
-                                } 
+                                if(oneArry.files) {
+                                    oneArry.files.push(...load.files)
+                                    oneArry.fileNames.push(...load.fileNames)
+                                    load.files = oneArry.files
+                                    load.fileNames = oneArry.fileNames
+                                }
+                                console.log(load.files, load.fileNames)
 
                                 if(!image) {
                                     load.image = oneArry.image ? oneArry.image : ''
-                                    load.fileName = oneArry.fileName ? oneArry.fileName : ''
+                                    load.imageName = oneArry.imageName ? oneArry.imageName : ''
                                 }
 
                                 let updates = {}
@@ -363,6 +367,7 @@ const Profile = (props) => {
         setPrevFiles([])
         setInputFile(document.getElementById("input-file"));
         setInterest({})
+        setDecliamer(false)
 
         imageRef.current.src = require('../assets/img/avatar.png').default
         let interests = document.getElementsByClassName('form-check-input')
