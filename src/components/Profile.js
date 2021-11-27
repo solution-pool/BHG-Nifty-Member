@@ -95,6 +95,9 @@ const Profile = (props) => {
                                 setHeld(oneArry.held)
                                 setEmail(oneArry.email)
                                 setBio(oneArry.bio)
+                                setTwitter(oneArry.twitter)
+                                setUsername(oneArry.username)
+                                
                                 if(oneArry.fileNames) {
                                     let container = [];
                                     let prevFile = []
