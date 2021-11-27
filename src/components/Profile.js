@@ -391,7 +391,7 @@ const Profile = (props) => {
                     <Row>
                         <Col lg="8" md="12" sm="12">
                             <Row>
-                                <Col lg="6" md="12" sm="12" className="main-col">
+                                <Col lg="6" md="6" sm="12" className="main-col">
                                     <Form.Group controlId="formWallet">
                                         <Form.Label>Wallet Address</Form.Label>
                                         <Form.Control type="text" ref={walletRef} placeholder="Wallet Address" defaultValue={props.address ? props.address : ''} required />
@@ -403,13 +403,13 @@ const Profile = (props) => {
                                         <Form.Control type="text" placeholder="Create a Username" value={username} onChange={changeUsername} required />
                                     </Form.Group>
                                 </Col>
-                                <Col lg="6" md="12" sm="12" className="main-col">
+                                <Col lg="6" md="6" sm="12" className="main-col">
                                     <Form.Group className="mb-4" controlId="formEmail">
                                         <Form.Label>Email</Form.Label>
                                         <Form.Control type="text" placeholder="Email" value={email} onChange={changeEmail} required />
                                     </Form.Group>
                                 </Col>
-                                <Col lg="6" md="12" sm="12" className="main-col">
+                                <Col lg="6" md="6" sm="12" className="main-col">
                                     <Form.Group className="mb-4" controlId="formTwitter">
                                         <Form.Label>Twitter</Form.Label>
                                         <Form.Control type="twitter" placeholder="Twitter URL" value={twitter} onChange={changeTwitter} required />
@@ -417,7 +417,7 @@ const Profile = (props) => {
                                 </Col>
                             </Row>
                         </Col>
-                        <Col lg="4" md="6" sm="12" className="main-col">
+                        <Col lg="4" md="12" sm="12" className="main-col">
                             <Row>
                                 <Col lg="12" md="12" sm="12" className="sub-main-col">
                                     <Form.Group controlId="formHeld">
