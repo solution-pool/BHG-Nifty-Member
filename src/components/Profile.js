@@ -80,7 +80,7 @@ const Profile = (props) => {
       fillPrevFileContainer()
       fillFileContainer()
       let wallet = walletRef.current.value
-      if(username) {
+      if(wallet) {
             let niftyRef = database.ref('member_profile')
             niftyRef.get().then( (snapshot) => {
                 if(snapshot.exists) {
