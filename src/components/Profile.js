@@ -412,7 +412,7 @@ const Profile = (props) => {
                                 <Col lg="6" md="6" sm="12" className="main-col">
                                     <Form.Group controlId="formUsername">
                                         <Form.Label>Username</Form.Label>
-                                        <Form.Control type="text" placeholder="Create a Username" value={username} onChange={changeUsername} required />
+                                        <Form.Control type="text" placeholder="Create a Username" value={username} onChange={changeUsername} />
                                     </Form.Group>
                                 </Col>
                                 <Col lg="6" md="6" sm="12" className="main-col">
@@ -424,7 +424,7 @@ const Profile = (props) => {
                                 <Col lg="6" md="6" sm="12" className="main-col">
                                     <Form.Group className="mb-4" controlId="formTwitter">
                                         <Form.Label>Twitter</Form.Label>
-                                        <Form.Control type="twitter" placeholder="Twitter URL" value={twitter} onChange={changeTwitter} required />
+                                        <Form.Control type="twitter" placeholder="Twitter URL" value={twitter} onChange={changeTwitter} />
                                     </Form.Group>
                                 </Col>
                             </Row>
@@ -536,7 +536,7 @@ const Profile = (props) => {
                                     <label title="" class="form-check-label">
                                         &nbsp;I have read the <span class="disclaimer" onClick={handleClick}>disclaimer</span> and I agree to the terms.
                                     </label>
-                                    <input type="checkbox" class="form-check-input" value={decliamer} onChange={changeDecliamer} />
+                                    <input type="checkbox" class="form-check-input" value={decliamer} onChange={changeDecliamer} required />
                                 </span>
                                 <div className="footer-element file-panel">
                                     <input id="input-file" type="file" name="file" className="d-none" onChange={changeFile} multiple />
