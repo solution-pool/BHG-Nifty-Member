@@ -1,57 +1,29 @@
 # BHG-Nifty-Member
 
-This project is a simple template for saving form data and uploading file with React as FRONTEND and Nodejs as backend and Mysql as database.
+This project is a simple template for saving form data and uploading files with React as FRONTEND and Firebase.
 
 ## Prerequisities
-
-You should first install node and MySQL to use this project.
+You should first install the node and create a firebase project to use this project.
 
 ## How to install
+You can download this repository by typing ass follows on the command prompt.
 
-You can download this repository by typing 
-
-    git clone https://github.com/Hot-Gambler/BHG-Nifty-Member/ on the command prompt.
+git clone https://github.com/Hot-Gambler/BHG-Nifty-Member/ 
 
 Then install the project.
 
-    cd backend 
-    npm install (or yarn install)
-    npm run dev
-
-    cd ..
-    cd frontend
-    npm install (or yarn install)
-    npm start
+cd BHG-Nifty-Member 
+npm install (or yarn install)
+npm start
 
 ## Project structure
+The basic folder structure of the project follows as.
 
-The project is composed mainly of two sections as frontend and backend and each section has its own config file.
+src / components
+This folder contains the main files for the project.
 
-### Frontend
+src / config
+You can set the config which we use in this project, firebase setting, etc.
 
-#### src / components
-
-This folder contains the main files for the frontend side. 
-
-#### src / config
-
-You can set the config which we use the for frontend side.
-Please make sure you set the server URL correctly here.
-
-### Backend
-
-#### app
-
-Our server is here and other backend functionalities are implemented here.
-
-#### resources 
-
-You can upload files to this folder.
-
-####
-
-You can config here. Make sure you set the config to connect the database.
-
-## Conclusion 
-
+## Conclusion
 Will add more huge functionality to our project.
