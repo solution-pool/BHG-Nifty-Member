@@ -1,4 +1,5 @@
 import { Navbar, Container, Nav, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 const Header = (props) => {
 
@@ -9,6 +10,7 @@ const Header = (props) => {
                     <img src={require('../assets/img/nifty.svg').default} />
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                <a href={props.projectUrl} className="back" id="collapse-back">&lt;&lt;-back to projects</a>
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
                         <Nav.Link href="https://twitter.com/nifty_io">
@@ -23,6 +25,7 @@ const Header = (props) => {
                             <span>Opensea</span>
                             <img src={require('../assets/img/opensea.svg').default} alt="Opensea icon" />
                         </Nav.Link>
+                        <a href={props.projectUrl} className="back" id="expand-back">&lt;&lt;-back to projects</a>
                     </Nav>
                     <Nav>
                         <Nav.Link>

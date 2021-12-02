@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import Header from './components/Header';
 import Profile from './components/Profile';
 import Web3 from 'web3';
+import { PROJECT_URL } from './config/server';
 // import 
 import { useEffect, useState } from 'react';
 
@@ -28,7 +29,7 @@ function App() {
   }
   return (
     <div className="App">
-      <Header connect={walletConnect} address={walletAddress[0]} />
+      <Header connect={walletConnect} address={walletAddress[0]} projectUrl={PROJECT_URL} />
       <Profile address={walletAddress[0]} />
     </div>
   );

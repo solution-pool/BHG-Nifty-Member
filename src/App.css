@@ -54,6 +54,20 @@
   padding-left: 2rem;
 }
 
+.back {
+    margin: auto;
+    color: black;
+    padding-left: 2vw;
+    text-decoration: none;
+}
+
+#collapse-back {
+  display: none;
+} 
+#expand-back {
+  display: block;
+}
+
 #connect-wallet {
   outline: unset;
   border: unset;
@@ -348,6 +362,21 @@
     background-color: #fff;
     color: #000;
   }
+
+  .back {
+    margin: auto;
+    color: black;
+    padding-left: 2vw;
+  }
+  #collapse-back {
+      display: inline;
+      float: right;
+      margin-top: 1.8rem;
+  } 
+  #expand-back {
+      display: none;
+  }
+
 }
 
 @media only screen and (min-width: 992px) {
