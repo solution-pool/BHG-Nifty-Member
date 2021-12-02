@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 import { database, storage } from '../config/firebase'
+import {getHeldAmount} from '../helpers/contract'
 
 const Profile = (props) => {
     const [username, setUsername] = useState('')
@@ -74,11 +75,17 @@ const Profile = (props) => {
         imageRef.current.src = url
     }
 
+    const loadHeld = async() => {
+        const amnt = await getHeldAmount(props.address);
+        setHeld(amnt);
+    }
+
     useEffect(() => {
       setInputFile(document.getElementById("input-file"));
       setImageFile(document.getElementById("input-image"));
       fillPrevFileContainer()
       fillFileContainer()
+      loadHeld()
       let wallet = walletRef.current.value
       if(wallet) {
             let niftyRef = database.ref('member_profile')
@@ -96,7 +103,6 @@ const Profile = (props) => {
                                 }
 
                                 imageRef.current.src = oneArry.image ? oneArry.image : require('../assets/img/avatar.png').default
-                                setHeld(oneArry.held)
                                 setEmail(oneArry.email)
                                 setBio(oneArry.bio)
                                 setTwitter(oneArry.twitter)
