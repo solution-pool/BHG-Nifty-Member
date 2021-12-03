@@ -410,6 +410,10 @@
     left : 18rem;
   }
 
+  .notification-container {
+    width: 100% !important;
+  }
+
   #up-decliamer {
     display: none;
   }
