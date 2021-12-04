@@ -11,9 +11,9 @@ import { useEffect, useState } from 'react';
 function App() {
   const [walletAddress, setAddress] = useState('')
 
-  useEffect(() => {
-      walletConnect()
-  })
+  useEffect( async () => {
+      await walletConnect()
+  }, [walletAddress[0]])
 
   const walletConnect = async () => {
       if(window.ethereum) {

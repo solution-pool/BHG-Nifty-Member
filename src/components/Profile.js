@@ -544,10 +544,10 @@ const Profile = (props) => {
                             <Form.Group className="mb-4">
                                 <Form.Label>Files</Form.Label>
                                 <span id="up-decliamer">
-                                    <label title="" class="form-check-label">
-                                        &nbsp;I have read the <span class="disclaimer" onClick={handleClick}>disclaimer</span> and I agree to the terms.
+                                    <label title="" className="form-check-label">
+                                        &nbsp;I have read the <span className="disclaimer" onClick={handleClick}>disclaimer</span> and I agree to the terms.
                                     </label>
-                                    <input type="checkbox" class="form-check-input decliamer-input" value={decliamer} onChange={changeDecliamer} required />
+                                    <input type="checkbox" className="form-check-input decliamer-input" value={decliamer} onChange={changeDecliamer} required />
                                 </span>
                                 <div className="footer-element file-panel">
                                     <input id="input-file" type="file" name="file" className="d-none" onChange={changeFile} multiple />
@@ -561,9 +561,9 @@ const Profile = (props) => {
                                     </Row>
                                 </div>
                                 <span id="down-decliamer">
-                                    <input type="checkbox" class="form-check-input decliamer-input" value={decliamer} onChange={changeDecliamer} />
-                                    <label title="" class="form-check-label">
-                                        &nbsp;I have read the <span class="disclaimer" onClick={handleClick}>disclaimer</span> and I agree to the terms.
+                                    <input type="checkbox" className="form-check-input decliamer-input" value={decliamer} onChange={changeDecliamer} />
+                                    <label title="" className="form-check-label">
+                                        &nbsp;I have read the <span className="disclaimer" onClick={handleClick}>disclaimer</span> and I agree to the terms.
                                     </label>
                                 </span>
                             </Form.Group>

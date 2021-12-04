@@ -29,7 +29,7 @@ const Header = (props) => {
                     </Nav>
                     <Nav>
                         <Nav.Link>
-                            <Button variant="light" id="connect-wallet" onClick={props.walletConnect}>{props.address ? props.address : 'Connect wallet'}</Button>
+                            <Button variant="light" id="connect-wallet" onClick={props.connect}>{props.address ? props.address : 'Connect wallet'}</Button>
                         </Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
