@@ -362,8 +362,10 @@ const Profile = (props) => {
                 NotificationManager.success('The member profile was successfully submitted.', 'Success', 5000)
                 setLoading(false)
             }
+
+            window.location.href = props.projectUrl
   
-        reset()
+        // reset()
     }
 
     const reset = () => {

@@ -30,7 +30,7 @@ function App() {
   return (
     <div className="App">
       <Header connect={walletConnect} address={walletAddress[0]} projectUrl={PROJECT_URL} />
-      <Profile address={walletAddress[0]} />
+      <Profile address={walletAddress[0]} projectUrl={PROJECT_URL} />
     </div>
   );
 }
